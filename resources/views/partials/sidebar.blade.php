@@ -30,7 +30,8 @@
                                 <span class="hide-menu">Buku</span>
                             </li>
                             <li class="sidebar-item">
-                                <a class="sidebar-link" href="/dashboard/books" aria-expanded="false">
+                                <a class="sidebar-link @if (request()->segment(2) === 'books') active @endif"
+                                    href="/dashboard/books" aria-expanded="false">
                                     <span>
                                         <i class="ti ti-book"></i>
                                     </span>
@@ -43,7 +44,8 @@
                                 <span class="hide-menu">Peminjaman</span>
                             </li>
                             <li class="sidebar-item">
-                                <a class="sidebar-link" href="/dashboard/bookings" aria-expanded="false">
+                                <a class="sidebar-link @if (request()->segment(2) === 'bookings') active @endif"
+                                    href="/dashboard/bookings" aria-expanded="false">
                                     <span>
                                         <i class="ti ti-notebook"></i>
                                     </span>
@@ -51,11 +53,21 @@
                                 </a>
                             </li>
                             <li class="sidebar-item">
-                                <a class="sidebar-link" href="/dashboard/forfeits" aria-expanded="false">
+                                <a class="sidebar-link @if (request()->segment(2) === 'forfeits') active @endif"
+                                    href="/dashboard/forfeits" aria-expanded="false">
                                     <span>
                                         <i class="ti ti-alert-circle"></i>
                                     </span>
                                     <span class="hide-menu">Denda</span>
+                                </a>
+                            </li>
+                            <li class="sidebar-item">
+                                <a class="sidebar-link @if (request()->segment(2) === 'scanner') active @endif"
+                                    href="/qr/scanner" aria-expanded="false">
+                                    <span>
+                                        <i class="ti ti-qrcode"></i>
+                                    </span>
+                                    <span class="hide-menu">QR Scanner</span>
                                 </a>
                             </li>
                         @endif
@@ -67,7 +79,8 @@
                                 <span class="hide-menu">Admin</span>
                             </li>
                             <li class="sidebar-item">
-                                <a class="sidebar-link" href="/dashboard/bookings" aria-expanded="false">
+                                <a class="sidebar-link @if (request()->segment(2) === 'bookings') active @endif"
+                                    href="/dashboard/bookings" aria-expanded="false">
                                     <span>
                                         <i class="ti ti-list"></i>
                                     </span>
@@ -75,7 +88,8 @@
                                 </a>
                             </li>
                             <li class="sidebar-item">
-                                <a class="sidebar-link" href="/dashboard/users" aria-expanded="false">
+                                <a class="sidebar-link @if (request()->segment(2) === 'users') active @endif"
+                                    href="/dashboard/users" aria-expanded="false">
                                     <span>
                                         <i class="ti ti-user"></i>
                                     </span>
@@ -83,7 +97,8 @@
                                 </a>
                             </li>
                             <li class="sidebar-item">
-                                <a class="sidebar-link" href="/dashboard/books" aria-expanded="false">
+                                <a class="sidebar-link @if (request()->segment(2) === 'books') active @endif"
+                                    href="/dashboard/books" aria-expanded="false">
                                     <span>
                                         <i class="ti ti-book"></i>
                                     </span>
@@ -91,11 +106,30 @@
                                 </a>
                             </li>
                             <li class="sidebar-item">
-                                <a class="sidebar-link" href="/dashboard/forfeits" aria-expanded="false">
+                                <a class="sidebar-link @if (request()->segment(2) === 'types') active @endif"
+                                    href="/dashboard/types" aria-expanded="false">
+                                    <span>
+                                        <i class="ti ti-book"></i>
+                                    </span>
+                                    <span class="hide-menu">Kelola Genre Buku</span>
+                                </a>
+                            </li>
+                            <li class="sidebar-item">
+                                <a class="sidebar-link @if (request()->segment(2) === 'forfeits') active @endif"
+                                    href="/dashboard/forfeits" aria-expanded="false">
                                     <span>
                                         <i class="ti ti-alert-circle"></i>
                                     </span>
                                     <span class="hide-menu">Denda</span>
+                                </a>
+                            </li>
+                            <li class="sidebar-item">
+                                <a class="sidebar-link @if (request()->segment(2) === 'scanner') active @endif"
+                                    href="/qr/scanner" aria-expanded="false">
+                                    <span>
+                                        <i class="ti ti-qrcode"></i>
+                                    </span>
+                                    <span class="hide-menu">QR Scanner</span>
                                 </a>
                             </li>
                         @endif

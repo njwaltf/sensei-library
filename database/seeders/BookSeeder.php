@@ -21,7 +21,7 @@ class BookSeeder extends Seeder
             'image' => 'book-image/cover.jpg',
             'desc' => 'Manga Jujutsu Kaisen yang dibuat oleh komikus bernama Akutami Gege ini bercerita tentang Yuuji adalah seorang jenius di trek dan lapangan. Tapi dia sama sekali tidak tertarik untuk berputar-putar, dia bahagia sebagai seorang clam di Klub Penelitian Ilmu Gaib. Meskipun dia hanya ada di klub untuk iseng, keadaan menjadi serius ketika semangat nyata muncul di sekolah! Hidup akan menjadi sangat aneh di SMA Kota Sugisawa!',
             'writer' => 'Gege Akutami',
-            'type' => 'Fiksi'
+            'type_id' => 1
         ]);
     }
 }

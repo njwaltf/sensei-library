@@ -2,6 +2,8 @@
 
 namespace App\Models;
 
+// use App\Models\Book;
+use App\Models\Type;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
@@ -27,6 +29,12 @@ class Book extends Model
                 ->orWhere('type', 'like', "%$keyword");
         }
         return $query;
+    }
+
+    public function type()
+    {
+        // wan tu wan
+        return $this->belongsTo(Type::class);
     }
     use HasFactory;
 }

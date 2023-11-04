@@ -12,6 +12,9 @@
             <ul class="navbar-nav flex-row ms-auto align-items-center justify-content-end">
                 @if (auth()->user()->role === 'admin')
                     <a href="/dashboard/books/create" class="btn btn-primary">Tambah Buku <i class="ti ti-plus"></i></a>
+                    &nbsp;&nbsp;&nbsp;
+                    <a href="/dashboard/types/create" class="btn btn-success">Tambah Genre <i
+                            class="ti ti-plus"></i></a>
                 @endif
                 @if (auth()->user()->role === 'member')
                     <li class="nav-item dropdown">
@@ -53,6 +56,12 @@
                         </div>
                     </li>
                 @endif
+                <li class="nav-item">
+                    <a class="nav-link nav-icon-hover" href="{{ route('qr-scanner') }}">
+                        <img src="{{ asset('images/qr-code.png') }}" alt="" width="35" height="35"
+                            class="rounded-circle">
+                    </a>
+                </li>
                 <li class="nav-item dropdown">
                     <a class="nav-link nav-icon-hover" href="javascript:void(0)" id="drop2"
                         data-bs-toggle="dropdown" aria-expanded="false">

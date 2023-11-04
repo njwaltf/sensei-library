@@ -41,5 +41,6 @@ class DatabaseSeeder extends Seeder
         ]);
 
         $this->call(BookSeeder::class);
+        $this->call(TypeSeeder::class);
     }
 }

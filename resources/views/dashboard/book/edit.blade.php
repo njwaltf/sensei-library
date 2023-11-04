@@ -3,7 +3,7 @@
     <!--  Row 1 -->
     <div class="row">
         <div class="col-lg-12 my-3">
-            <h2><a href="/dashboard/books"><i class="ti ti-arrow-left"></i></a> Tambah Buku</h2>
+            <h2><a href="/dashboard/books"><i class="ti ti-arrow-left"></i></a> Edit Buku</h2>
         </div>
     </div>
     <form action="/dashboard/books/{{ $book->id }}" method="post" enctype="multipart/form-data">
@@ -37,9 +37,7 @@
                                 <div class="mb-4">
                                     <label for="bully_desc" class="form-label">Deskripsi Buku</label>
                                     <p>Isikan deskripsi buku secara singkat.</p>
-                                    <input id="bully_desc" type="hidden" name="desc"
-                                        value="{{ old('desc', $book->desc) }}">
-                                    <trix-editor input="bully_desc"></trix-editor>
+                                    <textarea name="desc" id="" cols="160" rows="10" class="form-control">{{ old('desc', $book->desc) }}</textarea>
                                     @error('desc')
                                         <p class="invalid" style="color: red">
                                             {{ $message }}
@@ -53,14 +51,16 @@
                                 <div class="mb-4">
                                     <label for="title" class="form-label">Genre Buku</label>
                                     <p>Pilih genre buku yang sesuai.</p>
-                                    <select class="form-select @error('type') is-invalid @enderror"
-                                        aria-label="Default select example" id="type" name="type">
-                                        <option value="{{ 'Fiksi' }}"
-                                            @if ($book->type === 'Fiksi') selected @endif>Fiksi</option>
-                                        <option value="{{ 'Non Fiksi' }}"
-                                            @if ($book->type === 'Non Fiksi') selected @endif>Non Fiksi</option>
+                                    <select class="form-select @error('type_id') is-invalid @enderror"
+                                        aria-label="Default select example" id="type_id" name="type_id">
+                                        @forelse ($types as $item)
+                                            <option value="{{ 'Fiksi' }}"
+                                                @if ($book->type_id === $item->id) selected @endif>{{ $item->name }}
+                                            </option>
+                                        @empty
+                                        @endforelse
                                     </select>
-                                    @error('type')
+                                    @error('type_id')
                                         <p class="invalid" style="color: red">
                                             {{ $message }}
                                         </p>

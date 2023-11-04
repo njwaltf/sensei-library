@@ -10,17 +10,10 @@ return new class extends Migration {
      */
     public function up() : void
     {
-        Schema::create('books', function (Blueprint $table) {
+        Schema::create('types', function (Blueprint $table) {
             $table->id();
-            $table->string('title');
-            $table->string('publisher');
-            // $table->string('type');
-            $table->foreignId('type_id');
-            $table->string('stock');
-            $table->string('publish_date');
-            $table->string('image');
+            $table->string('name');
             $table->text('desc');
-            $table->string('writer');
             $table->timestamps();
         });
     }
@@ -30,6 +23,6 @@ return new class extends Migration {
      */
     public function down() : void
     {
-        Schema::dropIfExists('books');
+        Schema::dropIfExists('types');
     }
 };

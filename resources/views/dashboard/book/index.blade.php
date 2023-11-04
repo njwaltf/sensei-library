@@ -40,6 +40,7 @@
                         </div>
                     </div>
                 </form>
+                {{-- <div id="reader" width="600px"></div> --}}
                 <div class="row">
                     @forelse ($books as $item)
                         <div class="col-md-4 col-lg-4">
@@ -55,6 +56,14 @@
                             </div>
                         </div>
                     @empty
+                        <div class="row">
+                            <div class="col-lg-12">
+                                <h2 class="text-center m-5">Buku tidak ditemukan</h2>
+                            </div>
+                            <div class="col-lg-12">
+                                <img src="" alt="" srcset="">
+                            </div>
+                        </div>
                     @endforelse
 
                 </div>

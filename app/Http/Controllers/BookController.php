@@ -7,10 +7,9 @@ use App\Http\Requests\StoreBookRequest;
 use App\Http\Requests\UpdateBookRequest;
 use App\Models\Book;
 use App\Models\Notification;
+use App\Models\Type;
 use Illuminate\Http\Request;
-use Carbon\Carbon;
-
-// use GuzzleHttp\Psr7\Request;
+use Barryvdh\DomPDF\Facade\Pdf;
 
 class BookController extends Controller
 {
@@ -42,6 +41,7 @@ class BookController extends Controller
     {
         return view('dashboard.book.create', [
             'title' => $this->title,
+            'types' => Type::all(),
             'notifications' => Notification::where('user_id', auth()->user()->id)->get()
         ]);
     }
@@ -54,7 +54,7 @@ class BookController extends Controller
         $validatedData = $request->validate([
             'title' => ['required', 'min:3', 'max:100'],
             'desc' => ['nullable', 'required'],
-            'type' => ['required'],
+            'type_id' => ['required'],
             'stock' => ['required'],
             'publisher' => ['required'],
             'writer' => ['required'],
@@ -92,6 +92,7 @@ class BookController extends Controller
         return view('dashboard.book.edit', [
             'title' => $this->title,
             'book' => $book,
+            'types' => Type::all(),
             'notifications' => Notification::where('user_id', auth()->user()->id)->get()
         ]);
     }
@@ -101,11 +102,10 @@ class BookController extends Controller
      */
     public function update(UpdateBookRequest $request, Book $book)
     {
-
         $validatedData = $request->validate([
             'title' => ['required', 'min:3', 'max:100'],
             'desc' => ['nullable', 'required'],
-            'type' => ['required'],
+            'type_id' => ['required'],
             'stock' => ['required'],
             'publisher' => ['required'],
             'writer' => ['required'],
@@ -127,5 +127,17 @@ class BookController extends Controller
     {
         Book::destroy($book->id);
         return redirect('/dashboard/books')->with('successDelete', 'Buku berhasil dihapus!');
+    }
+
+    public function exportPDF(Request $request)
+    {
+        // $book = Book::where('id', $request->id)->get('id');
+        $data['book'] = [
+            'id' => $request->id
+        ];
+        // $pdf = Pdf::loadView('pdf.qr', $book);
+        // return $pdf->stream();
+        $pdf = Pdf::loadView('pdf.qr', $data);
+        return $pdf->download('qr-code.pdf');
     }
 }

@@ -37,7 +37,7 @@
                                 <div class="mb-4">
                                     <label for="bully_desc" class="form-label">Deskripsi Buku</label>
                                     <p>Isikan deskripsi buku secara singkat.</p>
-                                    <textarea name="desc" id="" cols="160" rows="10" class="form-control"></textarea>
+                                    <textarea name="desc" id="" cols="160" rows="10" class="form-control">{{ old('desc') }}</textarea>
                                     @error('desc')
                                         <p class="invalid" style="color: red">
                                             {{ $message }}
@@ -51,12 +51,15 @@
                                 <div class="mb-4">
                                     <label for="title" class="form-label">Genre Buku</label>
                                     <p>Pilih genre buku yang sesuai.</p>
-                                    <select class="form-select @error('type') is-invalid @enderror"
-                                        aria-label="Default select example" id="type" name="type">
-                                        <option value="{{ 'Fiksi' }}">Fiksi</option>
-                                        <option value="{{ 'Non Fiksi' }}">Non Fiksi</option>
+                                    <select class="form-select @error('type_id') is-invalid @enderror"
+                                        aria-label="Default select example" id="type_id" name="type_id">
+                                        @forelse ($types as $item)
+                                            <option value="{{ $item->id }}">{{ $item->name }}</option>
+                                        @empty
+                                            <option value="">Belum ada kategori</option>
+                                        @endforelse
                                     </select>
-                                    @error('type')
+                                    @error('type_id')
                                         <p class="invalid" style="color: red">
                                             {{ $message }}
                                         </p>
@@ -168,8 +171,8 @@
         </div>
         <div class="row">
             <div class="col-lg-3">
-                <button type="submit" class="btn btn-primary" style="margin-right: 15px">Kirim Laporan <i
-                        class="ti ti-send"></i></button>
+                <button type="submit" class="btn btn-primary" style="margin-right: 15px">Tambah Buku <i
+                        class="ti ti-plus"></i></button>
                 <a href="/dashboard/books" class="btn btn-outline-warning">Batal</a>
             </div>
         </div>

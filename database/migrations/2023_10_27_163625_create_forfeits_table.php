@@ -17,6 +17,7 @@ return new class extends Migration {
             $table->foreignId('booking_id');
             $table->integer('cost');
             $table->string('status');
+            $table->string('pay_image')->nullable();
             $table->timestamp('pay_date')->nullable();
             $table->timestamps();
         });

@@ -118,7 +118,7 @@ class BookingController extends Controller
                 'stock' => $booking->book->stock - 1
             ]);
             // create expired date
-            $validatedData['expired_date'] = Carbon::now()->addDays(8);
+            $validatedData['expired_date'] = Carbon::now()->addDays(7);
             // notif
             $data['desc'] = 'Buku berhasil kamu pinjam';
 

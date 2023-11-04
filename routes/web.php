@@ -3,12 +3,16 @@
 use App\Http\Controllers\BookController;
 use App\Http\Controllers\BookingController;
 use App\Http\Controllers\DashboardController;
+use App\Http\Controllers\ForfeitController;
 use App\Http\Controllers\LoginController;
 use App\Http\Controllers\ProfileController;
+use App\Http\Controllers\QRController;
 use App\Http\Controllers\RegisterController;
+use App\Http\Controllers\TypeController;
 use App\Http\Controllers\UserController;
 use App\Models\User;
 use Illuminate\Support\Facades\Route;
+
 
 
 
@@ -36,6 +40,12 @@ Route::prefix('/dashboard')->middleware('auth')->group(function () {
     Route::resource('/books', BookController::class);
     Route::get('/books', [BookController::class, 'index']);
 
+    // forfeit
+    Route::resource('/forfeits', ForfeitController::class);
+
+    // type
+    Route::resource('/types', TypeController::class);
+
     // booking
     Route::resource('/bookings', BookingController::class);
     Route::get('/bookings/{id}', [BookingController::class, 'show']);
@@ -48,5 +58,12 @@ Route::prefix('/dashboard')->middleware('auth')->group(function () {
     Route::get('/profile', [ProfileController::class, 'index'])->name('user-profile');
     Route::get('/profile/edit', [ProfileController::class, 'edit'])->name('user-profile-edit');
     Route::post('/profile/update', [ProfileController::class, 'update'])->name('user-profile-update');
+    Route::post('/forfeits/update', [ForfeitController::class, 'uploadImage'])->name('upload-payment');
 });
+// qr
+Route::get('/qr/export/{id}', [BookController::class, 'exportPDF']);
+Route::get('/qr/scanner', [QRController::class, 'index'])->name('qr-scanner');
+// Route::get('/qr/export/{id}', function () {
+//     return view('pdf.qr');
+// });
 

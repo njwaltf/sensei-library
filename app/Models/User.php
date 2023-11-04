@@ -25,6 +25,7 @@ class User extends Authenticatable
         'prof_pic',
         'role'
     ];
+    // protected $guarded = ['id'];
 
 
     /**
