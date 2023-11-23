@@ -74,24 +74,6 @@
                             <p class="m-1">{{ $book->publisher }}</p>
                         </div>
                     </div>
-                    {{-- <div class="row my-3">
-                        <div class="col-lg-6">
-                            <strong class="m-1">Laporkan sebagai</strong>
-                        </div>
-                        <div class="col-lg-6">
-                            @if ($book->isAnonym == 0)
-                                <div class="d-flex align-items-center gap-2">
-                                    <span class="badge bg-secondary rounded-3 fw-semibold">Publik <i
-                                            class="ti ti-eye-check"></i></span>
-                                </div>
-                            @else
-                                <div class="d-flex align-items-center gap-2">
-                                    <span class="badge bg-dark rounded-3 fw-semibold">Anonim <i
-                                            class="ti ti-spy"></i></span>
-                                </div>
-                            @endif
-                        </div>
-                    </div> --}}
                 </div>
             </div>
             <div class="card w-100">
@@ -103,29 +85,41 @@
                 </div>
             </div>
         </div>
-        @if (auth()->user()->role === 'member')
-            <div class="row">
-                <div class="col-lg-4">
-                    <div class="card w-100">
-                        <div class="card-header">
-                            <h5 class="card-title fw-semibold ">Pinjam {{ $book->title }} ?</h5>
-                        </div>
-                        <div class="card-body p-3">
-                            <div class="row m-0">
-                                <div class="col-lg-6 m-0">
-                                    <form action="/dashboard/bookings" method="post">
-                                        @csrf
-                                        <input type="hidden" value="{{ $book->id }}" name="book_id">
-                                        <input type="hidden" value="{{ auth()->user()->id }}" name="user_id">
-                                        <input type="hidden" value="{{ 'Diajukan' }}" name="status">
-                                        <input type="hidden" value="{{ 0 }}" name="isDenda">
-                                        <input type="hidden" value="{{ $book->stock }}" name="stock">
-                                        <button class="btn btn-primary" type="submit">Pinjam Buku</button>
-                                    </form>
-                                </div>
-                                <div class="col-lg-6 m-0">
-                                    <a href="/dashboard/books" class="btn btn-outline-warning">Batal Pinjam</a>
-                                </div>
+        <div class="row">
+            <div class="col-lg-4">
+                <div class="card">
+                    <div class="card-header">
+                        <h5 class="card-title fw-semibold m-3">Kode QR</h5>
+                    </div>
+                    <div class="card-body">
+                        <img src="{{ asset('storage/' . $book->image) }}" height="250" width="250"
+                            class="m-2 text-center">
+                    </div>
+                </div>
+            </div>
+        </div>
+        @if (auth()->user()->role === 'member' && $book->stock > 0)
+            <div class="col-lg-4">
+                <div class="card w-100">
+                    <div class="card-header">
+                        <h5 class="card-title fw-semibold ">Pinjam {{ $book->title }} ?</h5>
+                    </div>
+                    <div class="card-body p-3">
+                        <div class="row m-0">
+                            <div class="col-lg-6 m-0">
+                                <form action="/dashboard/bookings" method="post">
+                                    @csrf
+                                    <input type="hidden" value="{{ $book->id }}" name="book_id">
+                                    <input type="hidden" value="{{ auth()->user()->id }}" name="user_id">
+                                    <input type="hidden" value="{{ 'Diajukan' }}" name="status">
+                                    <input type="hidden" value="{{ 0 }}" name="isDenda">
+                                    <input type="hidden" value="{{ $book->stock }}" name="stock">
+                                    <button class="btn btn-primary" type="submit">Pinjam Buku</button>
+                                </form>
+                            </div>
+                            {{-- <p>{{ $date_now->format('d-m-Y') }}</p> --}}
+                            <div class="col-lg-6 m-0">
+                                <a href="/dashboard/books" class="btn btn-outline-warning">Batal Pinjam</a>
                             </div>
                         </div>
                     </div>

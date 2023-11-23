@@ -24,25 +24,29 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::get('/register', [RegisterController::class, 'index'])->name('register');
+Route::get('/register', [RegisterController::class, 'index'])->name('register')->middleware('guest');
 Route::post('/register', [RegisterController::class, 'store']);
 Route::post('/logout', [RegisterController::class, 'logout'])->name('logout');
-Route::get('/', [LoginController::class, 'index'])->name('login');
+Route::get('/', [LoginController::class, 'index'])->name('login')->middleware('guest');
 Route::post('/', [LoginController::class, 'auth']);
 
-// dashboard
-Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard');
+Route::prefix('/dashboard')->middleware('auth')->group(function () {
+    Route::get('/', [DashboardController::class, 'index'])->name('dashboard');
+    // book
+    Route::resource('/books', BookController::class);
+    Route::get('/books', [BookController::class, 'index']);
 
-// resource
-Route::resource('/dashboard/books', BookController::class);
-Route::resource('/dashboard/bookings', BookingController::class);
-Route::resource('/dashboard/users', UserController::class);
-Route::get('/dashboard/bookings/{id}', [BookingController::class, 'show']);
+    // booking
+    Route::resource('/bookings', BookingController::class);
+    Route::get('/bookings/{id}', [BookingController::class, 'show']);
+    Route::post('/bookings', [BookingController::class, 'store']);
 
-// peminjaman
-Route::post('/dashboard/bookings', [BookingController::class, 'store']);
+    // user
+    Route::resource('/users', UserController::class);
 
-// profile
-Route::get('/dashboard/profile', [ProfileController::class, 'index'])->name('user-profile');
-Route::get('/dashboard/profile/edit', [ProfileController::class, 'edit'])->name('user-profile-edit');
-Route::post('/dashboard/profile/update', [ProfileController::class, 'update'])->name('user-profile-update');
+    // profile
+    Route::get('/profile', [ProfileController::class, 'index'])->name('user-profile');
+    Route::get('/profile/edit', [ProfileController::class, 'edit'])->name('user-profile-edit');
+    Route::post('/profile/update', [ProfileController::class, 'update'])->name('user-profile-update');
+});
+

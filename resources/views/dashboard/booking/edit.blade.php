@@ -35,10 +35,36 @@
                     </div>
                     <div class="row my-3">
                         <div class="col-lg-6">
-                            <strong class="m-1">Waktu Peminjaman</strong>
+                            <strong class="m-1">Tanggal Peminjaman</strong>
                         </div>
                         <div class="col-lg-6">
-                            <p class="m-1">{{ $booking->created_at->diffForHumans() }}</p>
+                            <p class="m-1">{{ date('d-m-Y', strtotime($booking->book_at)) }}</p>
+                        </div>
+                    </div>
+                    <div class="row my-3">
+                        <div class="col-lg-6">
+                            <strong class="m-1">Tanggal Harus Kembali</strong>
+                        </div>
+                        <div class="col-lg-6">
+                            <p class="m-1" @if ($booking->expired_date != 0) style="color:red" @endif>
+                                @if ($booking->expired_date != 0)
+                                    {{ date('d-m-Y', strtotime($booking->expired_date)) }}*
+                                @else
+                                    Belum Diambil
+                                @endif
+                            </p>
+                        </div>
+                    </div>
+                    <div class="row my-3">
+                        <div class="col-lg-6">
+                            <strong class="m-1">Tanggal Pengembalian</strong>
+                        </div>
+                        <div class="col-lg-6">
+                            @if ($booking->return_date != 0)
+                                <p class="m-1">{{ date('d-m-Y', strtotime($booking->return_date)) }}</p>
+                            @else
+                                <p class="m-1">Belum Dikembalikan</p>
+                            @endif
                         </div>
                     </div>
                     <div class="row my-3">
@@ -85,7 +111,7 @@
                         <label for="title" class="form-label">Ubah status Peminjaman buku dari
                             {{ $booking->user->name }}</label>
                         <p>Anda dapat menolak atau menerima peminjaman dari pengguna</p>
-                        <form action="/dashboard/bookings/{{ $booking->id }}" method="post" enctype="multipart/form-data">
+                        <form action="/dashboard/bookings/{{ $booking->id }}" method="post">
                             @csrf
                             @method('put')
                             <input type="hidden" name="booking_id" value="{{ $booking->id }}">
@@ -93,20 +119,26 @@
                             <input type="hidden" name="desc" value="{{ 'Peminjaman kamu memiliki status baru!' }}">
                             <input type="hidden" name="title" value="{{ 'Pembaruan status' }}">
                             <select class="form-select @error('status') is-invalid @enderror"
-                                aria-label="Default select example" id="status" name="status">
-                                <option value="{{ 'Dipinjam' }}" @if ($booking->status === 'Dipinjam') selected @endif>
-                                    Dipinjam
-                                </option>
-                                <option value="{{ 'Ditolak' }}" @if ($booking->status === 'Ditolak') selected @endif>
-                                    Ditolak
-                                </option>
-                                <option value="{{ 'Dikembalikan' }}" @if ($booking->status === 'Dikembalikan') selected @endif>
-                                    Dikembalikan
-                                </option>
-                                <option value="{{ 'Dikembalikan Terlambat' }}"
-                                    @if ($booking->status === 'Dikembalikan Terlambat') selected @endif>
-                                    Dikembalikan Terlambat
-                                </option>
+                                aria-label="Default select example" id="status" name="status"
+                                @if ($booking->status === 'Dikembalikan') disabled @endif>
+                                @if ($booking->status === 'Diajukan' || $booking->status === 'Ditolak')
+                                    <option value="{{ 'Dipinjam' }}" @if ($booking->status === 'Dipinjam') selected @endif>
+                                        Dipinjam
+                                    </option>
+                                    <option value="{{ 'Ditolak' }}" @if ($booking->status === 'Ditolak') selected @endif>
+                                        Ditolak
+                                    </option>
+                                @elseif ($booking->status === 'Dipinjam')
+                                    <option value="{{ 'Dikembalikan' }}"
+                                        @if ($booking->status === 'Dikembalikan') selected @endif>
+                                        Dikembalikan
+                                    </option>
+                                @else
+                                    <option value="{{ 'Dikembalikan' }}"
+                                        @if ($booking->status === 'Dikembalikan') selected @endif>
+                                        Dikembalikan
+                                    </option>
+                                @endif
                             </select>
                             {{-- <input type="hidden" name="isDenda" value="{{ 0 }}"> --}}
                             <button type="submit" class="btn btn-primary my-4" style="margin-right: 15px;">Perbarui

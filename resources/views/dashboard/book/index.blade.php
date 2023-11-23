@@ -25,29 +25,27 @@
             </div>
         @endif
         @if (auth()->user()->role === 'member')
-            {{-- <div class="row">
-                @forelse ($books as $item)
-                    <div class="col-md-4">
-                        <div class="card">
-                            <img src="{{ asset('storage/' . $item->image) }}" class="card-img-top" alt="..."
-                                height="350" width="50">
-                            <div class="card-body">
-                                <h5 class="card-title">{{ $item->title }}</h5>
-                                <p class="card-text">{!! Str::limit($item->desc, 125, '...') !!}</p>
-                                <a href="/dashboard/books/{{ $item->id }}" class="btn btn-primary">Lihat Detail</a>
+            <div class="container-fluid">
+                <form method="get">
+                    <div class="row">
+                        <div class="col-lg-8">
+                            <div class="mb-4">
+                                <input type="text" class="form-control" name="search_keyword"
+                                    placeholder="Cari buku atau pengarang ..."
+                                    value="{{ request()->get('search_keyword') }}">
                             </div>
                         </div>
+                        <div class="col-lg-4">
+                            <button class="btn btn-primary" type="submit">Cari <i class="ti ti-search"></i></button>
+                        </div>
                     </div>
-                @empty
-                @endforelse
-            </div> --}}
-            <div class="container-fluid">
+                </form>
                 <div class="row">
                     @forelse ($books as $item)
                         <div class="col-md-4 col-lg-4">
                             <div class="card">
-                                <img src="{{ asset('storage/' . $item->image) }}" class="card-img-top" alt="..."height="350"
-                                    width="50">
+                                <img src="{{ asset('storage/' . $item->image) }}" class="card-img-top"
+                                    alt="..."height="350" width="50">
                                 <div class="card-body">
                                     <h5 class="card-title">{{ $item->title }}</h5>
                                     <p class="card-text">{{ Str::limit($item->desc, 90, '...') }}</p>

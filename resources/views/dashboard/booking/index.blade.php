@@ -42,7 +42,10 @@
                                             <h6 class="fw-semibold mb-0">Status</h6>
                                         </th>
                                         <th class="border-bottom-0">
-                                            <h6 class="fw-semibold mb-0">Tanggal Pinjam</h6>
+                                            <h6 class="fw-semibold mb-0">Tanggal Peminjaman</h6>
+                                        </th>
+                                        <th class="border-bottom-0">
+                                            <h6 class="fw-semibold mb-0">Tanggal Harus Kembali</h6>
                                         </th>
                                         @if (auth()->user()->role === 'admin')
                                             <th class="border-bottom-0">
@@ -71,7 +74,17 @@
                                                 </td>
                                                 <td class="border-bottom-0">
                                                     <h6 class="fw-semibold mb-1">
-                                                        {{ $booking->created_at->diffForHumans() }}
+                                                        {{ date('d-m-Y', strtotime($booking->book_at)) }}
+                                                    </h6>
+                                                </td>
+                                                <td class="border-bottom-0">
+                                                    <h6 class="fw-semibold mb-1"
+                                                        @if ($booking->isDenda === 1) style="color:red;" @endif>
+                                                        @if ($booking->expired_date != 0)
+                                                            {{ date('d-m-Y', strtotime($booking->expired_date)) }}
+                                                        @else
+                                                            Belum Diambil
+                                                        @endif
                                                     </h6>
                                                 </td>
                                                 <td class="border-bottom-0">
@@ -92,7 +105,7 @@
                                             </tr>
                                         @empty
                                             <tr>
-                                                <td colspan="5" class="text-center">
+                                                <td colspan="7" class="text-center">
                                                     Belum ada Peminjaman
                                                 </td>
                                             </tr>
@@ -112,7 +125,19 @@
                                                     @elseif ($booking->status === 'Dipinjam') class="badge bg-success rounded-3 fw-semibold" @elseif ($booking->status === 'Dikembalikan') class="badge bg-black rounded-3 fw-semibold" @elseif ($booking->status === 'Ditolak') class="badge bg-danger rounded-3 fw-semibold" @elseif ($booking->status === 'Dikembalikan Terlambat') class="badge bg-danger rounded-3 fw-semibold" @endif>{{ $booking->status }}</span>
                                                 </td>
                                                 <td class="border-bottom-0">
-                                                    <h6 class="fw-semibold mb-1">{{ $booking->created_at->diffForHumans() }}
+                                                    <h6 class="fw-semibold mb-1">
+                                                        {{-- date('d-m-Y', strtotime($user->from_date)) --}}
+                                                        {{ date('d-m-Y', strtotime($booking->book_at)) }}
+                                                    </h6>
+                                                </td>
+                                                <td class="border-bottom-0">
+                                                    <h6 class="fw-semibold mb-1"
+                                                        @if ($booking->isDenda === 1) style="color:red;" @endif>
+                                                        @if ($booking->expired_date != 0)
+                                                            {{ date('d-m-Y', strtotime($booking->expired_date)) }}
+                                                        @else
+                                                            Belum Diambil
+                                                        @endif
                                                     </h6>
                                                 </td>
                                                 <td class="border-bottom-0">
@@ -128,7 +153,7 @@
                                             </tr>
                                         @empty
                                             <tr>
-                                                <td colspan="5" class="text-center">
+                                                <td colspan="7" class="text-center">
                                                     Belum ada Peminjaman
                                                 </td>
                                             </tr>

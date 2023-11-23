@@ -27,10 +27,36 @@
                 <div class="card-body p-3">
                     <div class="row my-3">
                         <div class="col-lg-6">
-                            <strong class="m-1">Waktu Peminjaman</strong>
+                            <strong class="m-1">Tanggal Peminjaman</strong>
                         </div>
                         <div class="col-lg-6">
-                            <p class="m-1">{{ $booking->created_at->diffForHumans() }}</p>
+                            <p class="m-1">{{ date('d-m-Y', strtotime($booking->book_at)) }}</p>
+                        </div>
+                    </div>
+                    <div class="row my-3">
+                        <div class="col-lg-6">
+                            <strong class="m-1">Tanggal Harus Kembali</strong>
+                        </div>
+                        <div class="col-lg-6">
+                            <p class="m-1" @if ($booking->expired_date != 0) style="color:red" @endif>
+                                @if ($booking->expired_date != 0)
+                                    {{ date('d-m-Y', strtotime($booking->expired_date)) }}*
+                                @else
+                                    Belum Diambil
+                                @endif
+                            </p>
+                        </div>
+                    </div>
+                    <div class="row my-3">
+                        <div class="col-lg-6">
+                            <strong class="m-1">Tanggal Pengembalian</strong>
+                        </div>
+                        <div class="col-lg-6">
+                            @if ($booking->return_date != 0)
+                                <p class="m-1">{{ date('d-m-Y', strtotime($booking->return_date)) }}</p>
+                            @else
+                                <p class="m-1">Belum Dikembalikan</p>
+                            @endif
                         </div>
                     </div>
                     <div class="row my-3">

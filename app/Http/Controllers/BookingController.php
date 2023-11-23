@@ -7,7 +7,9 @@ use App\Http\Requests\StoreBookingRequest;
 use App\Http\Requests\UpdateBookingRequest;
 use App\Models\Book;
 use App\Models\Booking;
+use App\Models\Forfeit;
 use App\Models\Notification;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 
 
@@ -19,11 +21,20 @@ class BookingController extends Controller
     public $title = 'Booking | Perpus';
     public function index()
     {
+        // $now = Carbon::now();
+        // $date = Carbon::now()->addDays(7);
+        // $result = '';
+        // if ($date->gt($now)) {
+        //     $result = 'telat';
+        // } else {
+        //     $result = 'gak telat';
+        // }
         return view('dashboard.booking.index', [
             'bookings' => Booking::where('user_id', auth()->user()->id)->get(),
             'all_bookings' => Booking::all(),
             'title' => $this->title,
-            'notifications' => Notification::where('user_id', auth()->user()->id)->get()
+            'notifications' => Notification::where('user_id', auth()->user()->id)->get(),
+            // 'result' => $result
         ]);
     }
 
@@ -47,10 +58,15 @@ class BookingController extends Controller
             'isDenda' => ['required'],
             'stock' => ['required']
         ]);
+
+        // $validatedData['expired_date'] = Carbon::now()->addDays(7);
+        $validatedData['book_at'] = now();
+
+        // $validatedData['user_id'] = auth()->user()->id;
         Booking::create($validatedData);
-        Book::where('id', $request->book_id)->update([
-            'stock' => $request->stock - 1
-        ]);
+        // Book::where('id', $request->book_id)->update([
+        //     'stock' => $request->stock - 1
+        // ]);
         return redirect('/dashboard/books')->with('success', 'Peminjaman diajukan silahkan ambil buku anda ke perpustakaan!');
     }
 
@@ -83,32 +99,71 @@ class BookingController extends Controller
      */
     public function update(UpdateBookingRequest $request, Booking $booking)
     {
+        // edit booking
         $validatedData = $request->validate([
             'status' => ['required']
         ]);
+
+        // notif
         $data = [
             'user_id' => $request->user_id,
             'booking_id' => $request->booking_id,
             'title' => $request->title,
             'desc' => $request->desc
         ];
+        // $data['status'] = $request->status;
         if ($validatedData['status'] === 'Dipinjam') {
+            // stock update
+            Book::where('id', $booking->book_id)->update([
+                'stock' => $booking->book->stock - 1
+            ]);
+            // create expired date
+            $validatedData['expired_date'] = Carbon::now()->addDays(8);
+            // notif
             $data['desc'] = 'Buku berhasil kamu pinjam';
+
         } elseif ($validatedData['status'] === 'Dikembalikan') {
-            $data['desc'] = 'Buku telah dikembalikan tepat waktu';
+            // Book stock update
+            Book::where('id', $booking->book_id)->update([
+                'stock' => $booking->book->stock + 1
+            ]);
+            // get today date
+            $validatedData['return_date'] = Carbon::now();
+
+            // check if the return_date is greater than the expired date if true denda == 1
+            if ($validatedData['return_date']->gt($booking->expired_date)) {
+                // create forfeit
+                $forfeitData = [
+                    'book_id' => $booking->book->id,
+                    'user_id' => $booking->user->id,
+                    'booking_id' => $booking->id,
+                    'cost' => 50000,
+                    'status' => 'Belum Dibayar',
+                ];
+                Forfeit::create($forfeitData);
+                $validatedData['isDenda'] = 1;
+                $data['desc'] = 'Buku dikembalikan terlambat denda wkwk';
+
+            } else {
+                $validatedData['isDenda'] = 0;
+                $data['desc'] = 'Buku telah dikembalikan tepat waktu';
+            }
+
         } elseif ($validatedData['status'] === 'Ditolak') {
             $data['desc'] = 'Gaboleh minjem lu awokawok 😂';
-        } elseif ($validatedData['status'] === 'Dikembalikan Terlambat') {
-            $data['desc'] = 'Buku dikembalikan terlambat sekarang denda 😡';
+
         }
 
+        // denda
         if ($validatedData['status'] === 'Dikembalikan Terlambat') {
             Booking::where('id', $booking->id)->update([
                 'isDenda' => 1
             ]);
         }
 
+        // status
         $booking = Booking::where('id', $booking->id)->update($validatedData);
+        // notif
         Notification::create($data);
         return redirect('/dashboard/bookings/')->with('successEdit', 'Peminjaman berhasil diperbarui!');
     }

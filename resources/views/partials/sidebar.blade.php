@@ -50,6 +50,14 @@
                                     <span class="hide-menu">Pinjaman Buku</span>
                                 </a>
                             </li>
+                            <li class="sidebar-item">
+                                <a class="sidebar-link" href="/dashboard/forfeits" aria-expanded="false">
+                                    <span>
+                                        <i class="ti ti-alert-circle"></i>
+                                    </span>
+                                    <span class="hide-menu">Denda</span>
+                                </a>
+                            </li>
                         @endif
 
                         {{-- admin --}}
@@ -80,6 +88,14 @@
                                         <i class="ti ti-book"></i>
                                     </span>
                                     <span class="hide-menu">Kelola Buku</span>
+                                </a>
+                            </li>
+                            <li class="sidebar-item">
+                                <a class="sidebar-link" href="/dashboard/forfeits" aria-expanded="false">
+                                    <span>
+                                        <i class="ti ti-alert-circle"></i>
+                                    </span>
+                                    <span class="hide-menu">Denda</span>
                                 </a>
                             </li>
                         @endif

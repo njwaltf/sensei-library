@@ -7,6 +7,10 @@ use App\Http\Requests\StoreBookRequest;
 use App\Http\Requests\UpdateBookRequest;
 use App\Models\Book;
 use App\Models\Notification;
+use Illuminate\Http\Request;
+use Carbon\Carbon;
+
+// use GuzzleHttp\Psr7\Request;
 
 class BookController extends Controller
 {
@@ -15,11 +19,18 @@ class BookController extends Controller
      */
 
     public $title = 'Daftar Buku | Perpus';
-    public function index()
+    public function index(Request $request)
     {
+        if ($request->filled('search_keyword')) {
+            $keyword = $request->input('search_keyword');
+            $books = Book::search($keyword)->get();
+        } else {
+            $books = Book::get();
+        }
+        // $books = Book::where('column', 'value...')->get();
         return view('dashboard.book.index', [
             'title' => $this->title,
-            'books' => Book::all(),
+            'books' => $books,
             'notifications' => Notification::where('user_id', auth()->user()->id)->get()
         ]);
     }
@@ -64,9 +75,11 @@ class BookController extends Controller
      */
     public function show(Book $book)
     {
+        // $date_now = Carbon::now()->addDays(3);
         return view('dashboard.book.show', [
             'title' => $this->title,
             'book' => $book,
+            // 'date_now' => $date_now,
             'notifications' => Notification::where('user_id', auth()->user()->id)->get()
         ]);
     }

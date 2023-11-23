@@ -26,7 +26,7 @@
             </div>
         @endif
         @if (auth()->user()->role === 'member')
-            <h1>Ngapain lu ajg</h1>
+            <h1>You dont have access wir</h1>
         @else
             <div class="table-responsive">
                 <table class="table text-nowrap mb-0 align-middle table-hover display" id="myTable">
@@ -92,8 +92,8 @@
                                         @csrf
                                         @method('delete')
                                         <button class="btn btn-danger m-1" type="submit"
-                                            onclick="return confirm('Apakah kamu yakin ingin menghapus buku ini?')">Kick
-                                            cuy🤓
+                                            onclick="return confirm('Apakah kamu yakin ingin menghapus buku ini?')">Kick <i
+                                                class="ti ti-circle-x"></i>
                                         </button>
                                     </form>
                                 </td>
