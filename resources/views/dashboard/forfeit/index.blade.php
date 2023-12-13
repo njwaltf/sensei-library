@@ -134,7 +134,13 @@
                                                         {{ date('d-m-Y', strtotime($forfeit->booking->return_date)) }}</h6>
                                                 </td>
                                                 <td class="border-bottom-0">
-                                                    <h6 class="fw-semibold mb-0">{{ $forfeit->user->name }}</h6>
+                                                    @if ($forfeit->pay_date != null)
+                                                        <h6 class="fw-semibold mb-0">
+                                                            {{ date('d-m-Y', strtotime($forfeit->pay_date)) }}</h6>
+                                                    @else
+                                                        Belum Bayar
+                                                    @endif
+                                                    {{-- <h6 class="fw-semibold mb-0">{{ $forfeit->user->name }}</h6> --}}
                                                 </td>
                                                 <td class="border-bottom-0">
                                                     <h6 class="fw-semibold mb-0">
@@ -149,9 +155,9 @@
                                                 </td>
                                                 <td class="border-bottom-0">
                                                     {{-- detail --}}
-                                                    <a href="/dashboard/forfeits/{{ $forfeit->id }}"
+                                                    {{-- <a href="/dashboard/forfeits/{{ $forfeit->id }}"
                                                         class="btn btn-info m-1">Detail <i
-                                                            class="ti ti-arrow-right"></i></a>
+                                                            class="ti ti-arrow-right"></i></a> --}}
                                                     {{-- update --}}
                                                     <a href="/dashboard/forfeits/{{ $forfeit->id }}/edit"
                                                         class="btn btn-success m-1">Proses Pembayaran

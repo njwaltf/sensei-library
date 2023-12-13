@@ -2,11 +2,16 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Notification;
+use Carbon\Carbon;
+// use App\Models\Book;
 use App\Models\User;
+use App\Exports\UsersExport;
+use App\Models\Notification;
 use Illuminate\Http\Request;
+use Barryvdh\DomPDF\Facade\Pdf;
 use Illuminate\Routing\Controller;
 use Illuminate\Support\Facades\Hash;
+use Maatwebsite\Excel\Facades\Excel;
 
 class UserController extends Controller
 {
@@ -97,5 +102,18 @@ class UserController extends Controller
     {
         User::destroy($user->id);
         return redirect('/dashboard/users')->with('successDelete', 'Akun berhasil dihapus!');
+    }
+    public function exportUserPDF()
+    {
+        // $book = Book::where('id', $request->id)->get('id');
+        $data['users'] = User::all();
+        // $pdf = Pdf::loadView('pdf.qr', $book);
+        // return $pdf->stream();
+        $pdf = Pdf::loadView('pdf.user', $data);
+        return $pdf->download('User_Data_Updated_' . Carbon::now() . '.pdf');
+    }
+    public function exportUsers()
+    {
+        return Excel::download(new UsersExport, 'users_new_updated_' . Carbon::now() . '.xlsx');
     }
 }

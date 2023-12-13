@@ -113,7 +113,7 @@
                         <div class="card-body p-3">
                             <div class="row m-0">
                                 <div class="col-lg-4 m-0">
-                                    <form action="/dashboard/bookings" method="post">
+                                    <form action="/dashboard/bookings" method="POST">
                                         @csrf
                                         <input type="hidden" value="{{ $book->id }}" name="book_id">
                                         <input type="hidden" value="{{ auth()->user()->id }}" name="user_id">

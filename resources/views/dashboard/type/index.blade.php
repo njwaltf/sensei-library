@@ -1,6 +1,6 @@
 @extends('layouts.app')
 @section('main')
-    <h1>Daftar Peminjaman</h1>
+    <h1>Daftar Kategori</h1>
     <!--  Row 1 -->
     <div class="row py-5">
         {{-- <h1>{{ auth()->user()->rombel_id }}</h1> --}}

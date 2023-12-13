@@ -1,6 +1,7 @@
 <?php
 
 namespace App\Http\Controllers;
+
 use App\Http\Requests\StoreForfeitRequest;
 use App\Http\Requests\UpdateForfeitRequest;
 use App\Models\Forfeit;
@@ -56,7 +57,7 @@ class ForfeitController extends Controller
      */
     public function edit(Forfeit $forfeit)
     {
-        return view('dashboard.forfeit.edit', [
+        return view('dashboard.forfeit.edit-new', [
             'title' => $this->title,
             'forfeit' => $forfeit,
             'notifications' => Notification::where('user_id', auth()->user()->id)->get()
@@ -68,8 +69,8 @@ class ForfeitController extends Controller
      */
     public function update(UpdateForfeitRequest $request, Forfeit $forfeit)
     {
-        $validatedData= $request->validate([
-            'status'=> ['required']
+        $validatedData = $request->validate([
+            'status' => ['required']
         ]);
 
         $data = [
@@ -81,8 +82,7 @@ class ForfeitController extends Controller
         $validatedData['pay_date'] = Carbon::now();
         if ($validatedData['status'] === 'Tolak') {
             $data['desc'] = 'Bukti Pembayaran kamu ditolak';
-        }
-        elseif ($validatedData['status'] === 'Dibayar') {
+        } elseif ($validatedData['status'] === 'Dibayar') {
             $data['desc'] = 'Pembayaran Berhasil Denda Selesai!';
         }
         $forfeit = Forfeit::where('id', $forfeit->id)->update($validatedData);
@@ -95,8 +95,8 @@ class ForfeitController extends Controller
     public function uploadImage(Request $request)
     {
         $data = $request->validate([
-            'pay_image' => ['required','image','file'],
-            'status'=> ['required'],
+            'pay_image' => ['required', 'image', 'file'],
+            'status' => ['required'],
         ]);
 
         if ($request->file('pay_image')) {

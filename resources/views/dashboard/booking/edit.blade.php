@@ -3,7 +3,7 @@
     <!--  Row 1 -->
     <div class="row">
         <div class="col-lg-12 my-3">
-            <h2><a href="/dashboard/bookings"><i class="ti ti-arrow-left"></i></a> Detail Peminjaman</h2>
+            <h2><a href="/dashboard/bookings"><i class="ti ti-arrow-left"></i></a> Detail Peminjamann</h2>
         </div>
     </div>
     <div class="row">
@@ -30,7 +30,9 @@
                             <strong class="m-1">Peminjam</strong>
                         </div>
                         <div class="col-lg-6">
-                            <p class="m-1">{{ $booking->user->name }}</p>
+                            <a href="/dashboard/user/{{ $booking->user->id }}">
+                                <p class="m-1">{{ $booking->user->name }}</p>
+                            </a>
                         </div>
                     </div>
                     <div class="row my-3">

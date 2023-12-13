@@ -24,6 +24,7 @@ class RegisterController extends Controller
             'username' => ['required', 'unique:users', 'max:20', 'min:4'],
             'name' => ['required', 'unique:users', 'max:100'],
             'password' => ['required', 'min:8'],
+            'role' => ['required'],
             'prof_pic' => ['required']
         ]);
         // password hash
@@ -31,7 +32,7 @@ class RegisterController extends Controller
         User::create($validatedData);
 
         // succes
-        return redirect('/')->with('success', '<strong>Akun berhasil dibuat!</strong> <br>Silahkan masuk terlebih dahulu');
+        return redirect('/login')->with('success', '<strong>Akun berhasil dibuat!</strong> <br>Silahkan masuk terlebih dahulu');
     }
 
     public function logout(Request $request)
@@ -39,6 +40,6 @@ class RegisterController extends Controller
         Auth::logout();
         $request->session()->invalidate();
         $request->session()->regenerateToken();
-        return redirect('/')->with('successLogout', 'Anda telah keluar!');
+        return redirect('/login')->with('successLogout', 'Anda telah keluar!');
     }
 }

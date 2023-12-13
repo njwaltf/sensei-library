@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Exports\BookingsExport;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\StoreBookingRequest;
 use App\Http\Requests\UpdateBookingRequest;
@@ -10,6 +11,8 @@ use App\Models\Booking;
 use App\Models\Forfeit;
 use App\Models\Notification;
 use Carbon\Carbon;
+use Barryvdh\DomPDF\Facade\Pdf;
+use Maatwebsite\Excel\Facades\Excel;
 use Illuminate\Http\Request;
 
 
@@ -31,7 +34,7 @@ class BookingController extends Controller
         // }
         return view('dashboard.booking.index', [
             'bookings' => Booking::where('user_id', auth()->user()->id)->get(),
-            'all_bookings' => Booking::all(),
+            'all_bookings' => Booking::latest()->get(),
             'title' => $this->title,
             'notifications' => Notification::where('user_id', auth()->user()->id)->get(),
             // 'result' => $result
@@ -67,7 +70,7 @@ class BookingController extends Controller
         // Book::where('id', $request->book_id)->update([
         //     'stock' => $request->stock - 1
         // ]);
-        return redirect('/dashboard/books')->with('success', 'Peminjaman diajukan silahkan ambil buku anda ke perpustakaan!');
+        return redirect('/dashboard/bookings')->with('success', 'Peminjaman diajukan silahkan ambil buku anda ke perpustakaan!');
     }
 
     /**
@@ -176,5 +179,42 @@ class BookingController extends Controller
         Booking::destroy($booking->id);
         Book::where('id', $request->book_id)->update(['stock' => $request->stock + 2]);
         return redirect('/dashboard/bookings')->with('successDelete', 'Peminjaman berhasil dibatalkan!');
+    }
+
+    public function exportPDF(Request $request)
+    {
+        // $book = Book::where('id', $request->id)->get('id');
+        $data['booking'] = [
+            'id' => $request->id
+        ];
+        // $pdf = Pdf::loadView('pdf.qr', $book);
+        // return $pdf->stream();
+        $pdf = Pdf::loadView('pdf.qr-booking', $data);
+        return $pdf->download('qr-code-booking.pdf');
+    }
+
+    public function generateInvoice($id)
+    {
+        $data['booking'] = Booking::where('id', $id)->get();
+        // $booking = Booking::where('id', $id)->get();
+        // $data = Booking::where('id', $id)->get();
+        $pdf = Pdf::loadView('pdf.invoice', $data);
+        return $pdf->download('booking_' . $id . '.pdf');
+        // return view('pdf.invoice', [
+        //     'booking' => $data['booking']
+        // ]);
+    }
+    public function exportBookingPDF()
+    {
+        // $book = Book::where('id', $request->id)->get('id');
+        $data['bookings'] = Booking::all();
+        // $pdf = Pdf::loadView('pdf.qr', $book);
+        // return $pdf->stream();
+        $pdf = Pdf::loadView('pdf.booking', $data);
+        return $pdf->download('Bookings_Data_Updated_' . Carbon::now() . '.pdf');
+    }
+    public function exportBookings()
+    {
+        return Excel::download(new BookingsExport, 'bookings_new_updated_' . Carbon::now() . '.xlsx');
     }
 }

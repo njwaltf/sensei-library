@@ -94,6 +94,26 @@
                     </div>
                 </div>
             </div>
+            <div class="col-lg-7">
+                <div class="card">
+                    <div class="card-header">
+                        <h5 class="card-title fw-semibold m-3">Kode QR</h5>
+                    </div>
+                    <div class="card-body">
+                        {{-- <img src="{{ asset('storage/' . $book->image) }}" height="250" width="250"
+                            class="m-2 text-center"> --}}
+                        {!! QrCode::size(250)->generate('http://127.0.0.1:8000/dashboard/bookings/' . $booking->id . '/edit') !!}
+                        {{-- btn add --}}
+                        {{-- @if (auth()->user()->role === 'admin') --}}
+                        <a class="btn btn-info my-3" href="{{ url('/qr/export-booking/' . $booking->id) }}">Export QR PDF <i
+                                class="ti ti-file-text"></i></a>
+                        <a class="btn btn-primary my-3" href="{{ url('/export/invoice/' . $booking->id) }}">Generate Invoice
+                            <i class="ti ti-file-text"></i></a>
+                        {{-- @endif --}}
+                        {{-- <img src="{!! QrCode::format('png')->generate('http://127.0.0.1:8000/dashboard/books/' . $book->id) !!}"> --}}
+                    </div>
+                </div>
+            </div>
         </div>
     </div>
 @endsection

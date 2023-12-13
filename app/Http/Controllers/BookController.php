@@ -2,14 +2,17 @@
 
 namespace App\Http\Controllers;
 
+use App\Exports\BooksExport;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\StoreBookRequest;
 use App\Http\Requests\UpdateBookRequest;
 use App\Models\Book;
 use App\Models\Notification;
 use App\Models\Type;
-use Illuminate\Http\Request;
 use Barryvdh\DomPDF\Facade\Pdf;
+use Carbon\Carbon;
+use Illuminate\Http\Request;
+use Maatwebsite\Excel\Facades\Excel;
 
 class BookController extends Controller
 {
@@ -17,7 +20,7 @@ class BookController extends Controller
      * Display a listing of the resource.
      */
 
-    public $title = 'Daftar Buku | Perpus';
+    private $title = 'Daftar Buku | Perpus';
     public function index(Request $request)
     {
         if ($request->filled('search_keyword')) {
@@ -139,5 +142,18 @@ class BookController extends Controller
         // return $pdf->stream();
         $pdf = Pdf::loadView('pdf.qr', $data);
         return $pdf->download('qr-code.pdf');
+    }
+    public function exportBookPDF()
+    {
+        // $book = Book::where('id', $request->id)->get('id');
+        $data['books'] = Book::all();
+        // $pdf = Pdf::loadView('pdf.qr', $book);
+        // return $pdf->stream();
+        $pdf = Pdf::loadView('pdf.book', $data);
+        return $pdf->download('Book_Data_Updated_' . Carbon::now() . '.pdf');
+    }
+    public function exportBooks()
+    {
+        return Excel::download(new BooksExport, 'books_new_updated_' . Carbon::now() . '.xlsx');
     }
 }

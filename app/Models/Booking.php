@@ -10,6 +10,9 @@ class Booking extends Model
     protected $guarded = [
         'id'
     ];
+    // protected $fillable = [
+    //     '','','','','','','',
+    // ]
 
     public function user()
     {

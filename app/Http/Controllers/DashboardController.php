@@ -19,39 +19,39 @@ class DashboardController extends Controller
         $count_user_bookings = Booking::where('user_id', auth()->user()->id)->count();
         $count_all_bookings = Booking::count();
         $active_user_bookings = Booking::where([
-            'user_id'=> auth()->user()->id,
-            'status'=> 'Dipinjam',
+            'user_id' => auth()->user()->id,
+            'status' => 'Dipinjam',
         ])->count();
         $done_user_bookings = Booking::where([
-            'user_id'=> auth()->user()->id,
-            'status'=> 'Dikembalikan',
+            'user_id' => auth()->user()->id,
+            'status' => 'Dikembalikan',
         ])->count();
-        $active_all_bookings = Booking::where('status','Dipinjam')->count();
-        $done_all_bookings = Booking::where('status','Dikembalikan')->count();
+        $active_all_bookings = Booking::where('status', 'Dipinjam')->count();
+        $done_all_bookings = Booking::where('status', 'Dikembalikan')->count();
 
         // denda
         $count_user_forfeits = Forfeit::where('user_id', auth()->user()->id)->count();
         $count_all_forfeits = Forfeit::count();
         $active_user_forfeits = Forfeit::where([
-            'user_id'=> auth()->user()->id,
-            'status'=> 'Belum Dibayar',
+            'user_id' => auth()->user()->id,
+            'status' => 'Belum Dibayar',
         ])->count();
-        $active_all_forfeits = Forfeit::where('status','Belum Dibayar')->count();
+        $active_all_forfeits = Forfeit::where('status', 'Belum Dibayar')->count();
         $done_user_forfeits = Forfeit::where([
-            'user_id'=> auth()->user()->id,
-            'status'=> 'Dibayar',
+            'user_id' => auth()->user()->id,
+            'status' => 'Dibayar',
         ])->count();
-        $done_all_forfeits = Forfeit::where('status','Dibayar')->count();
+        $done_all_forfeits = Forfeit::where('status', 'Dibayar')->count();
 
         // user
         $count_user = User::count();
-        $member_user = User::where('role','member')->count();
-        $admin_user = User::where('role','admin')->count();
+        $member_user = User::where('role', 'member')->count();
+        $admin_user = User::where('role', 'admin')->count();
 
         // book
         $count_book = Book::count();
-        $avail_book = Book::where('stock','>',0)->count();
-        $empty_book = Book::where('stock','=',0)->count();
+        $avail_book = Book::where('stock', '>', 0)->count();
+        $empty_book = Book::where('stock', '=', 0)->count();
 
         return view('index', [
             'title' => $this->title,
@@ -59,22 +59,23 @@ class DashboardController extends Controller
             'count_user_bookings' => $count_user_bookings,
             'count_all_bookings' => $count_all_bookings,
             'active_user_bookings' => $active_user_bookings,
-            'active_all_bookings'=> $active_all_bookings,
-            'done_user_bookings'=> $done_user_bookings,
-            'done_all_bookings'=> $done_all_bookings,
-            'count_user_forfeits'=> $count_user_forfeits,
-            'count_all_forfeits'=> $count_all_forfeits,
+            'active_all_bookings' => $active_all_bookings,
+            'done_user_bookings' => $done_user_bookings,
+            'done_all_bookings' => $done_all_bookings,
+            'count_user_forfeits' => $count_user_forfeits,
+            'count_all_forfeits' => $count_all_forfeits,
             'done_user_forfeits' => $done_user_forfeits,
             'done_all_forfeits' => $done_all_forfeits,
-            'active_user_forfeits'=> $active_user_forfeits,
-            'active_all_forfeits'=> $active_all_forfeits,
-            'member_user'=> $member_user,
-            'admin_user'=> $admin_user,
-            'count_user'=> $count_user,
-            'avail_book'=> $avail_book,
-            'empty_book'=> $empty_book,
-            'count_book'=> $count_book,
-            'latest_bookings'=> Booking::latest()->take(5)->get(),
+            'active_user_forfeits' => $active_user_forfeits,
+            'active_all_forfeits' => $active_all_forfeits,
+            'member_user' => $member_user,
+            'admin_user' => $admin_user,
+            'count_user' => $count_user,
+            'avail_book' => $avail_book,
+            'empty_book' => $empty_book,
+            'count_book' => $count_book,
+            'latest_bookings' => Booking::latest()->where('user_id', auth()->user()->id)->take(5)->get(),
+            'all_latest_bookings' => Booking::latest()->take(5)->get(),
         ]);
     }
 }

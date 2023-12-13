@@ -80,6 +80,18 @@
                     </div>
                     <div class="row my-3">
                         <div class="col-lg-6 col-sm-12">
+                            <strong class="m-1">Tanggal Pembayaran</strong>
+                        </div>
+                        <div class="col-lg-6 col-sm-12">
+                            @if ($forfeit->pay_date != null)
+                                <p class="m-1">{{ date('d-m-Y', strtotime($forfeit->booking->return_date)) }}</p>
+                            @else
+                                <p class="m-1">Belum Dibayar</p>
+                            @endif
+                        </div>
+                    </div>
+                    <div class="row my-3">
+                        <div class="col-lg-6 col-sm-12">
                             <strong class="m-1">Metode Pembayaran</strong>
                         </div>
                         <div class="col-lg-6 col-sm-12">
@@ -97,7 +109,7 @@
                 </div>
             </div>
         </div>
-        @if ($forfeit->status === 'Dibayar')
+        {{-- @if ($forfeit->status === 'Dibayar')
             <div class="col-lg-4">
                 <div class="card">
                     <div class="card-header">
@@ -109,7 +121,7 @@
                     </div>
                 </div>
             </div>
-        @endif
+        @endif --}}
         @if (auth()->user()->role === 'member' && $forfeit->status != 'Dibayar')
             <div class="col-lg-4">
                 <div class="card">
@@ -148,7 +160,7 @@
                     </div>
                 </div>
             </div>
-            {{-- @else
+        @else
             @if ($forfeit->pay_image)
                 <div class="col-lg-4">
                     <div class="card">
@@ -161,9 +173,9 @@
                         </div>
                     </div>
                 </div>
-            @endif --}}
+            @endif
         @endif
-        @if (auth()->user()->role === 'admin' && $forfeit->status != 'Belum Dibayar')
+        {{-- @if (auth()->user()->role === 'admin' && $forfeit->status != 'Belum Dibayar')
             <div class="col-lg-4">
                 <div class="card">
                     <div class="card-header">
@@ -175,7 +187,7 @@
                     </div>
                 </div>
             </div>
-        @endif
+        @endif --}}
         <div class="row">
             @if (auth()->user()->role === 'admin' && $forfeit->status != 'Belum Dibayar')
                 <div class="col-lg-12">

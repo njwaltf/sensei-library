@@ -1,6 +1,64 @@
 @extends('layouts.app')
 @section('main')
     <h1>Daftar Peminjaman</h1>
+    @if (auth()->user()->role === 'admin')
+        <div class="dropdown">
+            <!-- The dropdown button -->
+            <button class="dropdown-button" onclick="toggleDropdown()">Export Data <i class="ti ti-file-text"></i></button>
+
+            <!-- The dropdown content -->
+            <div class="dropdown-content" id="myDropdown">
+                <a href="{{ url('pdf/export-booking/') }}">PDF</a>
+                <a href="{{ url('excel/export-booking/') }}">Excel</a>
+                {{-- <a href="#">Something else here</a> --}}
+            </div>
+        </div>
+        {{-- <a class="btn btn-info my-3" href="">Export Book Data to pdf</a> --}}
+    @endif
+    @if (auth()->user()->role === 'admin')
+        <style>
+            div #reader {
+                width: 100%;
+                border: 20px solid #5D87FF;
+                border-radius: 10px;
+
+                /* Adjust the radius as needed */
+            }
+
+            #html5-qrcode-button-camera-start {
+                background-color: #5D87FF;
+                color: white;
+                border-radius: 10px;
+                padding: 10px;
+                border: none;
+            }
+
+            #html5-qrcode-button-camera-stop {
+                background-color: #5D87FF;
+                color: white;
+                border-radius: 10px;
+                border: none;
+                padding: 10px;
+            }
+
+            #html5-qrcode-button-file-selection {
+                background-color: #5D87FF;
+                color: white;
+                border-radius: 10px;
+                border: none;
+                padding: 10px;
+            }
+
+            #html5-qrcode-button-camera-permission {
+                background-color: #5D87FF;
+                color: white;
+                border-radius: 10px;
+                border: none;
+                padding: 10px;
+            }
+        </style>
+        <div id="reader" width="100%" class="reader"></div>
+    @endif
     <!--  Row 1 -->
     <div class="row py-5">
         {{-- <h1>{{ auth()->user()->rombel_id }}</h1> --}}

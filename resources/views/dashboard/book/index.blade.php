@@ -1,6 +1,20 @@
 @extends('layouts.app')
 @section('main')
     <h1>Daftar Buku</h1>
+    @if (auth()->user()->role === 'admin')
+        <div class="dropdown">
+            <!-- The dropdown button -->
+            <button class="dropdown-button" onclick="toggleDropdown()">Export Data <i class="ti ti-file-text"></i></button>
+
+            <!-- The dropdown content -->
+            <div class="dropdown-content" id="myDropdown">
+                <a href="{{ url('pdf/export-book/') }}">PDF</a>
+                <a href="{{ url('excel/export-book/') }}">Excel</a>
+                {{-- <a href="#">Something else here</a> --}}
+            </div>
+        </div>
+        {{-- <a class="btn btn-info my-3" href="">Export Book Data to pdf</a> --}}
+    @endif
     <!--  Row 1 -->
     <div class="row py-5">
         {{-- <h1>{{ auth()->user()->rombel_id }}</h1> --}}
@@ -65,7 +79,6 @@
                             </div>
                         </div>
                     @endforelse
-
                 </div>
             </div>
         @else

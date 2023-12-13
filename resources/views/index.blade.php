@@ -267,20 +267,37 @@
                                         <h5 class="card-title fw-semibold">Peminjaman Terakhir</h5>
                                     </div>
                                     <ul class="timeline-widget mb-0 position-relative mb-n5">
-                                        @forelse ($latest_bookings as $latest_booking)
-                                            <li class="timeline-item d-flex position-relative overflow-hidden">
-                                                <div class="timeline-time text-dark flex-shrink-0 text-end">
-                                                    {{ date('d-m-Y', strtotime($latest_booking->created_at)) }}</div>
-                                                <div class="timeline-badge-wrap d-flex flex-column align-items-center">
-                                                    <span
-                                                        class="timeline-badge border-2 border border-primary flex-shrink-0 my-8"></span>
-                                                    <span class="timeline-badge-border d-block flex-shrink-0"></span>
-                                                </div>
-                                                <div class="timeline-desc fs-3 text-dark mt-n1">
-                                                    {{ $latest_booking->book->title }}</div>
-                                            </li>
-                                        @empty
-                                        @endforelse
+                                        @if (auth()->user()->role === 'admin')
+                                            @forelse ($all_latest_bookings as $latest_booking)
+                                                <li class="timeline-item d-flex position-relative overflow-hidden">
+                                                    <div class="timeline-time text-dark flex-shrink-0 text-end">
+                                                        {{ date('d-m-Y', strtotime($latest_booking->created_at)) }}</div>
+                                                    <div class="timeline-badge-wrap d-flex flex-column align-items-center">
+                                                        <span
+                                                            class="timeline-badge border-2 border border-primary flex-shrink-0 my-8"></span>
+                                                        <span class="timeline-badge-border d-block flex-shrink-0"></span>
+                                                    </div>
+                                                    <div class="timeline-desc fs-3 text-dark mt-n1">
+                                                        {{ $latest_booking->book->title }}</div>
+                                                </li>
+                                            @empty
+                                            @endforelse
+                                        @else
+                                            @forelse ($latest_bookings as $latest_booking)
+                                                <li class="timeline-item d-flex position-relative overflow-hidden">
+                                                    <div class="timeline-time text-dark flex-shrink-0 text-end">
+                                                        {{ date('d-m-Y', strtotime($latest_booking->created_at)) }}</div>
+                                                    <div class="timeline-badge-wrap d-flex flex-column align-items-center">
+                                                        <span
+                                                            class="timeline-badge border-2 border border-primary flex-shrink-0 my-8"></span>
+                                                        <span class="timeline-badge-border d-block flex-shrink-0"></span>
+                                                    </div>
+                                                    <div class="timeline-desc fs-3 text-dark mt-n1">
+                                                        {{ $latest_booking->book->title }}</div>
+                                                </li>
+                                            @empty
+                                            @endforelse
+                                        @endif
                                         <li class="timeline-item d-flex position-relative overflow-hidden">
                                             <div class="timeline-time text-dark flex-shrink-0 text-end">
                                                 Belum ada &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</div>

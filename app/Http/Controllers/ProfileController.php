@@ -22,10 +22,13 @@ class ProfileController extends Controller
     {
         $data = $request->validate([
             'name' => ['required', 'max:100'],
-            'email' => ['required', 'email', 'max:100'],
-            // 'username' => ['required', 'min:4', 'max:4'],
+            'email' => 'required|email|unique:users,email,' . $request->id,
+            'username' => 'required|min:4|unique:users,username,' . $request->id,
             'prof_pic' => ['file', 'image']
         ]);
+        // if ($request->email != $data['email']) {
+        //     $data['email']->validate(['email' => ['required', 'email', 'max:100', 'unique:users']]);
+        // }
         if ($request->file('prof_pic')) {
             $data['prof_pic'] = $request->file('prof_pic')->store('profile');
         }
