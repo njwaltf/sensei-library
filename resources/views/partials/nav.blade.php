@@ -28,18 +28,37 @@
                         <div class="dropdown-menu dropdown-menu-end dropdown-menu-animate-up" aria-labelledby="drop2">
                             @if ($notifications->count())
                                 @foreach ($notifications as $notif)
-                                    <div class="message-body">
-                                        <a href="/dashboard/bookings/{{ $notif->booking_id }}"
-                                            class="d-flex align-items-center dropdown-item">
-                                            <div class="row">
-                                                <div class="col-lg-12">
-                                                    <p class="mb-0 fs-3 h5"><strong>{{ $notif->title }}</strong></p>
-                                                </div>
-                                                <div class="col-lg-12">
-                                                    <p>{{ $notif->desc }}</p>
-                                                </div>
+                                    <div class="message-body p-2">
+                                        <div class="row">
+                                            <div class="col-lg-9" style="margin-right: 18px">
+                                                <!-- Adjust the width as needed -->
+                                                <a href="/dashboard/bookings/{{ $notif->booking_id }}"
+                                                    class="d-flex align-items-center dropdown-item">
+                                                    <div class="row">
+                                                        <div class="col-lg-12">
+                                                            <p class="mb-0 fs-3 h5"><strong>{{ $notif->title }}</strong>
+                                                            </p>
+                                                        </div>
+                                                        <div class="col-lg-12">
+                                                            <p>{{ Str::limit($notif->desc, 20, '...') }}</p>
+                                                        </div>
+                                                    </div>
+                                                </a>
                                             </div>
-                                        </a>
+                                            <div class="col-lg-2 d-flex align-items-center justify-content-center">
+                                                <!-- Adjust the width as needed -->
+                                                <form action="/dashboard/delete/notification/{{ $notif->id }}"
+                                                    method="post" class="delete-form">
+                                                    @csrf
+                                                    @method('DELETE')
+                                                    <button type="button"
+                                                        class="btn btn-link text-danger delete-button">
+                                                        <i class="ti ti-trash"></i>
+                                                    </button>
+                                                </form>
+
+                                            </div>
+                                        </div>
                                     </div>
                                 @endforeach
                             @else

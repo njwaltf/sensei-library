@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Notification;
 use App\Http\Requests\StoreNotificationRequest;
 use App\Http\Requests\UpdateNotificationRequest;
+use Illuminate\Http\Request;
 
 class NotificationController extends Controller
 {
@@ -59,8 +60,12 @@ class NotificationController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(Notification $notification)
+    public function destroy(Notification $notification, Request $request)
     {
-        //
+        $notification->delete();
+        Notification::where('id', $request->id)->delete();
+
+        // Optionally, you can redirect back or to another page
+        return redirect()->back()->with('success', 'Notification deleted successfully');
     }
 }

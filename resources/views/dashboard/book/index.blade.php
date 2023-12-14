@@ -57,18 +57,51 @@
                 {{-- <div id="reader" width="600px"></div> --}}
                 <div class="row">
                     @forelse ($books as $item)
-                        <div class="col-md-4 col-lg-4">
-                            <div class="card">
-                                <img src="{{ asset('storage/' . $item->image) }}" class="card-img-top"
-                                    alt="..."height="350" width="50">
-                                <div class="card-body">
-                                    <h5 class="card-title">{{ $item->title }}</h5>
-                                    <p class="card-text">{{ Str::limit($item->desc, 90, '...') }}</p>
-                                    <a href="/dashboard/books/{{ $item->id }}" class="btn btn-primary">Lihat
-                                        Detail</a>
-                                </div>
+                        <div class="col-md-3 col-lg-3">
+                            <style>
+                                .card-container {
+                                    display: flex;
+                                    flex-wrap: wrap;
+                                    gap: 10px;
+                                    /* Adjust the gap as needed */
+                                }
+
+                                .card {
+                                    width: 280px;
+                                    /* Adjust the width as needed */
+                                    transition: transform 0.3s;
+                                    /* Add a smooth transition for the transform property */
+                                }
+
+                                .card:hover {
+                                    transform: scale(1.05);
+                                    /* Apply a scale transform on hover to create the zoom effect */
+                                }
+
+                                /* Set the <a> tag to display its content without acting as a block */
+                                .card-link {
+                                    display: contents;
+                                }
+                            </style>
+
+                            <div class="card-container">
+                                <!-- Wrap the card content with the <a> tag and assign the card-link class -->
+                                <a href="/dashboard/books/{{ $item->id }}" class="card-link">
+                                    <div class="card">
+                                        <img src="{{ asset('storage/' . $item->image) }}" class="card-img-top"
+                                            alt="...">
+                                        <div class="card-body">
+                                            <h5 class="card-title">{{ $item->title }}</h5>
+                                            <p class="card-text my-3">{{ Str::limit($item->desc, 50, '...') }}</p>
+                                            <a href="/dashboard/books/{{ $item->id }}" class="btn btn-primary">Lihat
+                                                Detail</a>
+                                        </div>
+                                    </div>
+                                </a>
+                                <!-- Add more card elements as needed -->
                             </div>
                         </div>
+
                     @empty
                         <div class="row">
                             <div class="col-lg-12">

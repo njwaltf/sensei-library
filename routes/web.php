@@ -12,7 +12,7 @@ use App\Http\Controllers\QRController;
 use App\Http\Controllers\RegisterController;
 use App\Http\Controllers\TypeController;
 use App\Http\Controllers\UserController;
-use App\Models\User;
+use App\Http\Controllers\NotificationController;
 use Illuminate\Support\Facades\Route;
 
 
@@ -40,6 +40,9 @@ Route::get('/login', [LoginController::class, 'index'])->name('login');
 Route::post('/login', [LoginController::class, 'auth']);
 
 Route::prefix('/dashboard')->middleware('auth')->group(function () {
+    // notif
+    Route::delete('/delete/notification/{id}', [NotificationController::class, 'destroy']);
+
     Route::get('/', [DashboardController::class, 'index'])->name('dashboard');
     // book
     Route::resource('/books', BookController::class);

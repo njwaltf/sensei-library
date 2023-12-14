@@ -12,6 +12,42 @@
     {{-- <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css"> --}}
     <link rel="stylesheet" type="text/css" href="https://unpkg.com/trix@2.0.0/dist/trix.css">
     <script type="text/javascript" src="https://unpkg.com/trix@2.0.0/dist/trix.umd.min.js"></script>
+    <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
+    <script>
+        $(document).ready(function() {
+            $('.delete-button').on('click', function(e) {
+                e.preventDefault();
+
+                var form = $(this).closest('.delete-form');
+
+                $.ajax({
+                    type: form.attr('method'),
+                    url: form.attr('action'),
+                    data: form.serialize(),
+                    success: function() {
+                        // Remove the notification container from the DOM
+                        form.closest('.message-body').remove();
+
+                        // Optionally, you can display a success message
+                        alert('Notifikasi berhasil dihapus');
+                    },
+                    error: function(xhr, status, error) {
+                        console.error('Error deleting notification:', error);
+                    }
+                });
+            });
+        });
+    </script>
+
+    <style>
+        .delete-button:hover {
+            /* Add your hover styles here */
+            color: red;
+            /* For example, change text color to red on hover */
+            /* Add any other styles or animations you want */
+        }
+    </style>
+
     <style>
         /* Add this style in your head or in your CSS file */
         .modal {
@@ -214,6 +250,9 @@
             }
         }
     </script>
+    <!-- Add this in your HTML file, make sure to include it before your script -->
+
+
 </body>
 
 </html>
