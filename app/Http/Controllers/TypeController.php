@@ -2,11 +2,16 @@
 
 namespace App\Http\Controllers;
 
+use App\Exports\TypesExport;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\StoreTypeRequest;
 use App\Http\Requests\UpdateTypeRequest;
+use App\Models\Book;
 use App\Models\Notification;
 use App\Models\Type;
+use Barryvdh\DomPDF\Facade\Pdf;
+use Carbon\Carbon;
+use Maatwebsite\Excel\Facades\Excel;
 
 class TypeController extends Controller
 {
@@ -94,5 +99,18 @@ class TypeController extends Controller
     {
         Type::destroy($type->id);
         return redirect('/dashboard/types')->with('successDelete', 'Genre Buku berhasil dihapus!');
+    }
+    public function exportTypePDF()
+    {
+        // $book = Book::where('id', $request->id)->get('id');
+        $data['types'] = Type::all();
+        // $pdf = Pdf::loadView('pdf.qr', $book);
+        // return $pdf->stream();
+        $pdf = Pdf::loadView('pdf.type', $data);
+        return $pdf->download('Book_Type_Data_Updated_' . Carbon::now() . '.pdf');
+    }
+    public function exportTypes()
+    {
+        return Excel::download(new TypesExport, 'book_types_new_updated_' . Carbon::now() . '.xlsx');
     }
 }

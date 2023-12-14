@@ -7,7 +7,7 @@
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <link rel="shortcut icon" type="image/png" href="{{ asset('images/logos/favicon.png') }}" />
     {{-- <link rel="stylesheet" href="{{ asset('css/styles.min.css') }}" /> --}}
-    <title>books PDF</title>
+    <title>Book Type PDF</title>
 </head>
 <style>
     * {
@@ -44,7 +44,7 @@
 </style>
 
 <body>
-    <h1 class="m-5">User Lists</h1>
+    <h1 class="m-5">Book Type Lists</h1>
     <div class="table-responsive m-5">
         <table class="table text-nowrap mb-0 align-middle table-hover display" id="customers">
             <thead class="text-dark fs-4">
@@ -53,24 +53,15 @@
                         <h6 class="fw-semibold mb-0">id</h6>
                     </th>
                     <th class="border-bottom-0">
-                        <h6 class="fw-semibold mb-0">name</h6>
+                        <h6 class="fw-semibold mb-0">type_name</h6>
                     </th>
                     <th class="border-bottom-0">
-                        <h6 class="fw-semibold mb-0">role</h6>
-                    </th>
-                    <th class="border-bottom-0">
-                        <h6 class="fw-semibold mb-0">username </h6>
-                    </th>
-                    <th class="border-bottom-0">
-                        <h6 class="fw-semibold mb-0">email </h6>
-                    </th>
-                    <th class="border-bottom-0">
-                        <h6 class="fw-semibold mb-0">prof_pic</h6>
+                        <h6 class="fw-semibold mb-0">description</h6>
                     </th>
                 </tr>
             </thead>
             <tbody>
-                @forelse ($users as $item)
+                @forelse ($types as $item)
                     <tr>
                         <td class="border-bottom-0">
                             <h6 class="fw-semibold mb-0">{{ $item->id }}</h6>
@@ -79,22 +70,13 @@
                             <h6 class="fw-semibold mb-0">{{ $item->name }}</h6>
                         </td>
                         <td class="border-bottom-0">
-                            <h6 class="fw-semibold mb-1">{{ $item->role }}</h6>
-                        </td>
-                        <td class="border-bottom-0">
-                            <h6 class="fw-semibold mb-1">{{ $item->username }}</h6>
-                        </td>
-                        <td class="border-bottom-0">
-                            <h6 class="fw-semibold mb-1">{{ $item->email }}</h6>
-                        </td>
-                        <td class="border-bottom-0">
-                            <h6 class="fw-semibold mb-1">{{ $item->prof_pic }}</h6>
+                            <h6 class="fw-semibold mb-1">{{ $item->desc }}</h6>
                         </td>
                     </tr>
                 @empty
                     <tr>
                         <td colspan="6" class="text-center">
-                            User not found
+                            Book Type not found
                         </td>
                     </tr>
                 @endforelse

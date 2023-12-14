@@ -54,7 +54,7 @@
                                     <select class="form-select @error('type_id') is-invalid @enderror"
                                         aria-label="Default select example" id="type_id" name="type_id">
                                         @forelse ($types as $item)
-                                            <option value="{{ 'Fiksi' }}"
+                                            <option value="{{ $item->id }}"
                                                 @if ($book->type_id === $item->id) selected @endif>{{ $item->name }}
                                             </option>
                                         @empty

@@ -13,6 +13,76 @@
     <link rel="stylesheet" type="text/css" href="https://unpkg.com/trix@2.0.0/dist/trix.css">
     <script type="text/javascript" src="https://unpkg.com/trix@2.0.0/dist/trix.umd.min.js"></script>
     <style>
+        /* Add this style in your head or in your CSS file */
+        .modal {
+            display: none;
+            position: fixed;
+            z-index: 1;
+            left: 20%;
+            top: 10%;
+            width: 60%;
+            overflow: auto;
+            animation: fadeIn 0.5s;
+        }
+
+        .modal-content {
+            position: relative;
+            margin: auto;
+            padding: 20px;
+            background-color: #5D87FF;
+            /* Set the theme color */
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            animation: scaleIn 0.5s;
+        }
+
+        .close {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            font-size: 24px;
+            /* Increase the font size for a bigger close button */
+            font-weight: bold;
+            color: #fff;
+            /* Set the close button color to white */
+            cursor: pointer;
+        }
+
+        img {
+            max-width: 100%;
+            height: auto;
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+            }
+
+            to {
+                opacity: 1;
+            }
+        }
+
+        @keyframes scaleIn {
+            from {
+                transform: scale(0.8);
+            }
+
+            to {
+                transform: scale(1);
+            }
+        }
+
+        @keyframes fadeOut {
+            from {
+                opacity: 1;
+            }
+
+            to {
+                opacity: 0;
+            }
+        }
+    </style>
+    <style>
         /* Style the dropdown container */
         .dropdown {
             position: relative;

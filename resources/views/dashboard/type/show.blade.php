@@ -18,7 +18,7 @@
             </div>
             <div class="row">
                 <div class="col-4">
-                    <a href="/dashboard/types" class="btn btn-outline-info">Batal Pinjam</a>
+                    <a href="/dashboard/types" class="btn btn-outline-info">Kembali</a>
                 </div>
             </div>
         </div>

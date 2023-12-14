@@ -1,6 +1,20 @@
 @extends('layouts.app')
 @section('main')
     <h1>Daftar Kategori</h1>
+    @if (auth()->user()->role === 'admin')
+        <div class="dropdown">
+            <!-- The dropdown button -->
+            <button class="dropdown-button" onclick="toggleDropdown()">Export Data <i class="ti ti-file-text"></i></button>
+
+            <!-- The dropdown content -->
+            <div class="dropdown-content" id="myDropdown">
+                <a href="{{ url('pdf/export-type/') }}">PDF</a>
+                <a href="{{ url('excel/export-type/') }}">Excel</a>
+                {{-- <a href="#">Something else here</a> --}}
+            </div>
+        </div>
+        {{-- <a class="btn btn-info my-3" href="">Export Book Data to pdf</a> --}}
+    @endif
     <!--  Row 1 -->
     <div class="row py-5">
         {{-- <h1>{{ auth()->user()->rombel_id }}</h1> --}}
@@ -67,7 +81,7 @@
                                                             class="ti ti-arrow-right"></i></a>
                                                     <a class="btn btn-warning m-1"
                                                         href="/dashboard/types/{{ $type->id }}/edit">Edit
-                                                        <i class="ti ti-settings"></i></a>
+                                                        <i class="ti ti-edit"></i></a>
                                                     <form action="/dashboard/types/{{ $type->id }}" method="post"
                                                         class="d-inline">
                                                         @csrf

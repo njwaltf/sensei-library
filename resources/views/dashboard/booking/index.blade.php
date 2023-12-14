@@ -150,15 +150,17 @@
                                                     <a href="/dashboard/bookings/{{ $booking->id }}"
                                                         class="btn btn-info m-1">Detail <i
                                                             class="ti ti-arrow-right"></i></a>
-                                                    <form action="/dashboard/bookings/{{ $booking->id }}" method="post"
-                                                        class="d-inline">
-                                                        @csrf
-                                                        @method('delete')
-                                                        <button class="btn btn-danger m-1" type="submit"
-                                                            onclick="return confirm('Apakah kamu yakin ingin menghapus ini?')">Batal
-                                                            Pinjam
-                                                            <i class="ti ti-circle-x"></i></button>
-                                                    </form>
+                                                    @if ($booking->status === 'Diajukan')
+                                                        <form action="/dashboard/bookings/{{ $booking->id }}"
+                                                            method="post" class="d-inline">
+                                                            @csrf
+                                                            @method('delete')
+                                                            <button class="btn btn-danger m-1" type="submit"
+                                                                onclick="return confirm('Apakah kamu yakin ingin menghapus ini?')">Batal
+                                                                Pinjam
+                                                                <i class="ti ti-circle-x"></i></button>
+                                                        </form>
+                                                    @endif
                                                 </td>
                                             </tr>
                                         @empty

@@ -74,8 +74,8 @@
                             <div class="col-lg-12">
                                 <h2 class="text-center m-5">Buku tidak ditemukan</h2>
                             </div>
-                            <div class="col-lg-12">
-                                <img src="" alt="" srcset="">
+                            <div class="col-lg-12 text-center">
+                                <img src="{{ asset('images/Search-pana 1.png') }}" alt="" srcset="">
                             </div>
                         </div>
                     @endforelse

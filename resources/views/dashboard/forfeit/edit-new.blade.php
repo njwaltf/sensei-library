@@ -169,7 +169,8 @@
                         </div>
                         <div class="card-body">
                             <img src="{{ asset('storage/' . $forfeit->pay_image) }}" height="250" width="250"
-                                class="m-2 text-center">
+                                class="m-2 text-center"
+                                onclick="showDetails('{{ asset('storage/' . $forfeit->pay_image) }}')">
                         </div>
                     </div>
                 </div>
@@ -269,6 +270,42 @@
         </div>
     </div>
 @endsection
+<script>
+    function showDetails(imageSrc) {
+        // Create a modal
+        var modal = document.createElement('div');
+        modal.className = 'modal';
+        modal.innerHTML =
+            '<div class="modal-content" style="background-color: #5D87FF;"><span class="close" onclick="closeModal()">&times;</span><img src="' +
+            imageSrc + '" alt="Image"></div>';
+        document.body.appendChild(modal);
+
+        // Show the modal
+        modal.style.display = 'block';
+
+        // Enable zooming on the image
+        modal.querySelector('img').addEventListener('click', function() {
+            closeModal(); // Close modal on image click
+        });
+
+        // Close the modal when clicking outside of the image
+        window.addEventListener('click', function(event) {
+            if (event.target === modal) {
+                closeModal();
+            }
+        });
+    }
+
+    function closeModal() {
+        // Close the modal with a fade-out animation
+        var modal = document.querySelector('.modal');
+        modal.style.animation = 'fadeOut 0.5s';
+        setTimeout(function() {
+            modal.style.display = 'none';
+            modal.remove();
+        }, 500);
+    }
+</script>
 <script>
     const previewImage = (event) => {
         /**

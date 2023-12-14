@@ -51,8 +51,8 @@
         </div>
         <div class="row">
             <div class="col-lg-3">
-                <button type="submit" class="btn btn-primary" style="margin-right: 15px">Edit Genre<i
-                        class="ti ti-plus"></i></button>
+                <button type="submit" class="btn btn-warning" style="margin-right: 15px">Edit Genre<i
+                        class="ti ti-edit"></i></button>
                 <a href="/dashboard/types" class="btn btn-outline-warning">Batal</a>
             </div>
         </div>

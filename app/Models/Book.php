@@ -25,8 +25,7 @@ class Book extends Model
             return $query->where('title', 'like', "%$keyword%")
                 ->orWhere('desc', 'like', "%$keyword%")
                 ->orWhere('writer', 'like', "%$keyword")
-                ->orWhere('publisher', 'like', "%$keyword")
-                ->orWhere('type', 'like', "%$keyword");
+                ->orWhere('publisher', 'like', "%$keyword");
         }
         return $query;
     }

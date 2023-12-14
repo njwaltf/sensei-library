@@ -106,7 +106,7 @@
                                         @csrf
                                         @method('delete')
                                         <button class="btn btn-danger m-1" type="submit"
-                                            onclick="return confirm('Apakah kamu yakin ingin menghapus buku ini?')">Kick <i
+                                            onclick="return confirm('Apakah kamu yakin ingin menghapus akun ini?')">Kick <i
                                                 class="ti ti-circle-x"></i>
                                         </button>
                                     </form>

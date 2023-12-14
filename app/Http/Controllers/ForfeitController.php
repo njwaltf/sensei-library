@@ -19,7 +19,7 @@ class ForfeitController extends Controller
 
     public function index()
     {
-        return view('dashboard.forfeit.index', [
+        return view('dashboard.forfeit.index-new', [
             'forfeits' => Forfeit::where('user_id', auth()->user()->id)->get(),
             'all_forfeits' => Forfeit::all(),
             'title' => $this->title,

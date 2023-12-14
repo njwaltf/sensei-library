@@ -44,7 +44,7 @@
 </style>
 
 <body>
-    <h1 class="m-5">Book Lists</h1>
+    <h1 class="m-5">Booking Lists</h1>
     <div class="table-responsive m-5">
         <table class="table text-nowrap mb-0 align-middle table-hover display" id="customers">
             <thead class="text-dark fs-4">
