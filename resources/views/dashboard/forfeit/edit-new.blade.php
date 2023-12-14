@@ -142,9 +142,11 @@
                                 <input type="hidden" name="status" value="{{ 'Menunggu' }}">
                                 @if ($forfeit->pay_image > 0)
                                     <img id="preview-selected-image" class="img-fluid m-2" height="200" width="150"
-                                        src="{{ asset('storage/' . $forfeit->pay_image) }}">
+                                        src="{{ asset('storage/' . $forfeit->pay_image) }}"
+                                        onclick="showDetails('{{ asset('storage/' . $forfeit->pay_image) }}')">
                                 @else
-                                    <img id="preview-selected-image" class="img-fluid m-2" height="200" width="150">
+                                    <img id="preview-selected-image" class="img-fluid m-2" height="200" width="150"
+                                        onclick="showDetails('{{ asset('storage/' . $forfeit->pay_image) }}')">
                                 @endif
                                 @error('image')
                                     <p class="invalid" style="color: red">
