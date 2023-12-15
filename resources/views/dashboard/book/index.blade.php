@@ -1,5 +1,85 @@
 @extends('layouts.app')
 @section('main')
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script>
+        function addToFavorites(button) {
+            var form = $(button).closest('form');
+            var formData = form.serialize();
+
+            $.ajax({
+                type: "POST",
+                url: form.attr('action'),
+                data: formData,
+                dataType: 'json',
+                success: function(response) {
+                    if (response.status === 'success') {
+                        // Update the view here
+                        // You can use response.favorite to get the newly created favorite data
+
+                        // Example: You may change the button appearance
+                        $(button).removeClass('btn-outline-danger').addClass('btn-danger');
+
+                        // Additional: Show a success message or perform other actions
+                        alert('Added to favorites successfully!');
+                    } else {
+                        // Handle errors if needed
+                        alert('Error adding to favorites');
+                    }
+                },
+                error: function(xhr, status, error) {
+                    // Handle errors if needed
+                    alert('Error adding to favorites');
+                }
+            });
+
+            // Prevent the form from submitting and the page from reloading
+            return false;
+        }
+    </script>
+
+    <style>
+        /* Add this CSS for zoom effect on hover */
+        .zoom-card:hover {
+            transition: transform 0.4s ease;
+            /* Adjust the duration and easing as needed */
+            transform: scale(1.1);
+            /* Adjust the scaling factor for zoom effect */
+        }
+
+        .card-container {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+            /* Adjust the gap as needed */
+        }
+
+        .card {
+            width: 280px;
+            /* Adjust the width as needed */
+        }
+
+        /* Set the <a> tag to display its content without acting as a block */
+        .card-link {
+            display: contents;
+        }
+
+        /* Custom styles for the circular button */
+        .btn-circle {
+            border-radius: 50%;
+            width: 40px;
+            height: 40px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: background-color 0.3s ease;
+        }
+
+        .btn-circle:hover {
+            background-color: #ff5c62;
+            /* Change to the desired hover color */
+            color: white;
+        }
+    </style>
     <h1>Daftar Buku</h1>
     @if (auth()->user()->role === 'admin')
         <div class="dropdown">
@@ -58,50 +138,55 @@
                 <div class="row">
                     @forelse ($books as $item)
                         <div class="col-md-3 col-lg-3">
-                            <style>
-                                .card-container {
-                                    display: flex;
-                                    flex-wrap: wrap;
-                                    gap: 10px;
-                                    /* Adjust the gap as needed */
-                                }
-
-                                .card {
-                                    width: 280px;
-                                    /* Adjust the width as needed */
-                                    transition: transform 0.3s;
-                                    /* Add a smooth transition for the transform property */
-                                }
-
-                                .card:hover {
-                                    transform: scale(1.05);
-                                    /* Apply a scale transform on hover to create the zoom effect */
-                                }
-
-                                /* Set the <a> tag to display its content without acting as a block */
-                                .card-link {
-                                    display: contents;
-                                }
-                            </style>
-
-                            <div class="card-container">
+                            <div class="card-container zoom-card">
                                 <!-- Wrap the card content with the <a> tag and assign the card-link class -->
                                 <a href="/dashboard/books/{{ $item->id }}" class="card-link">
-                                    <div class="card">
+                                    <div class="card d-flex">
                                         <img src="{{ asset('storage/' . $item->image) }}" class="card-img-top"
                                             alt="...">
-                                        <div class="card-body">
+                                        <div class="card-body d-flex flex-column">
                                             <h5 class="card-title">{{ $item->title }}</h5>
                                             <p class="card-text my-3">{{ Str::limit($item->desc, 50, '...') }}</p>
-                                            <a href="/dashboard/books/{{ $item->id }}" class="btn btn-primary">Lihat
-                                                Detail</a>
+
+                                            <!-- Buttons in one row on the right side -->
+                                            <div class="d-flex justify-content-start mt-auto py-3">
+                                                <a href="/dashboard/books/{{ $item->id }}" class="btn btn-primary mr-2"
+                                                    style="margin-right: 10px;">Lihat Detail</a>
+
+                                                <livewire:favorite-button :bookId="$item->id" :key="$item->id" />
+
+                                            </div>
                                         </div>
                                     </div>
                                 </a>
                                 <!-- Add more card elements as needed -->
+                                {{-- <script>
+                                    // Get a reference to the button element with the "active" class
+                                    var button = document.querySelector('.active');
+
+                                    // Get a reference to the popup container
+                                    var popupContainer = document.getElementById('popupContainer');
+
+                                    // Add an event listener for the click event
+                                    button.addEventListener('click', function() {
+                                        // Show the popup or perform any other action
+                                        showPopup();
+                                        alert('Already added to favorite!');
+                                    });
+
+                                    // Function to show the popup
+                                    // function showPopup() {
+                                    //     // Show the popup container
+                                    //     popupContainer.style.display = 'block';
+
+                                    //     // Close the popup after a certain duration (e.g., 3 seconds)
+                                    //     setTimeout(function() {
+                                    //         popupContainer.style.display = 'none';
+                                    //     }, 3000);
+                                    // }
+                                </script> --}}
                             </div>
                         </div>
-
                     @empty
                         <div class="row">
                             <div class="col-lg-12">
@@ -113,6 +198,7 @@
                         </div>
                     @endforelse
                 </div>
+
             </div>
         @else
             <div class="table-responsive">
@@ -170,9 +256,10 @@
                                     <form action="/dashboard/books/{{ $book->id }}" method="post" class="d-inline">
                                         @csrf
                                         @method('delete')
-                                        <button class="btn btn-danger m-1" type="submit"
-                                            onclick="return confirm('Apakah kamu yakin ingin menghapus buku ini?')">Hapus
-                                            <i class="ti ti-circle-x"></i></button>
+                                        <!-- Add to favorites button -->
+                                        <button class="btn btn-outline-danger btn-circle" onclick="addToFavorites(this)">
+                                            <i class="ti ti-heart"></i>
+                                        </button>
                                     </form>
                                 </td>
                             </tr>
@@ -188,4 +275,50 @@
             </div>
         @endif
     </div>
+    <!-- ... Your existing HTML code ... -->
+
+    {{-- <!-- Separate script for handling favorite button click and showing popup -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // Get all elements with the class "btn-circle"
+            var favoriteButtons = document.querySelectorAll('.btn-circle');
+
+            // Add a click event listener to each button
+            favoriteButtons.forEach(function(button) {
+                button.addEventListener('click', function() {
+                    // Show the popup or perform any other action
+                    alert('Already added to favorites');
+                });
+            });
+
+            // Function to show the popup
+            // function showPopup() {
+            //     // Your code to display the popup goes here
+            //     // For example, you can use a modal or create a custom popup element
+
+            //     // Example using Bootstrap modal
+            //     $('#myModal').modal('show');
+            // }
+        });
+    </script> --}}
+
+    <!-- Optional: Bootstrap modal example (add this to the end of your view) -->
+    {{-- <div class="modal" id="myModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel">Favorite Added</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    Book has been added to your favorites!
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                </div>
+            </div>
+        </div>
+    </div> --}}
+
 @endsection

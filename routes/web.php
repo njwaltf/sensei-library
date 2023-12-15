@@ -1,19 +1,20 @@
 <?php
 
 use App\Exports\UsersExport;
-use App\Http\Controllers\BookController;
-use App\Http\Controllers\BookingController;
-use App\Http\Controllers\DashboardController;
-use App\Http\Controllers\ForfeitController;
-use App\Http\Controllers\LandingController;
-use App\Http\Controllers\LoginController;
-use App\Http\Controllers\ProfileController;
+use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\QRController;
-use App\Http\Controllers\RegisterController;
+use App\Http\Controllers\BookController;
 use App\Http\Controllers\TypeController;
 use App\Http\Controllers\UserController;
+use App\Http\Controllers\LoginController;
+use App\Http\Controllers\BookingController;
+use App\Http\Controllers\ForfeitController;
+use App\Http\Controllers\LandingController;
+use App\Http\Controllers\ProfileController;
+use App\Http\Controllers\FavoriteController;
+use App\Http\Controllers\RegisterController;
+use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\NotificationController;
-use Illuminate\Support\Facades\Route;
 
 
 
@@ -40,6 +41,9 @@ Route::get('/login', [LoginController::class, 'index'])->name('login');
 Route::post('/login', [LoginController::class, 'auth']);
 
 Route::prefix('/dashboard')->middleware('auth')->group(function () {
+    // add to fav
+    Route::post('/favorite', [FavoriteController::class, 'store'])->name('add-favorite');
+    Route::get('/favorite', [FavoriteController::class, 'index'])->name('book-favorite');
     // notif
     Route::delete('/delete/notification/{id}', [NotificationController::class, 'destroy']);
 

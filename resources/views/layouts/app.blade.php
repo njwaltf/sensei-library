@@ -11,6 +11,7 @@
     {{-- trix editor --}}
     {{-- <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css"> --}}
     <link rel="stylesheet" type="text/css" href="https://unpkg.com/trix@2.0.0/dist/trix.css">
+
     <script type="text/javascript" src="https://unpkg.com/trix@2.0.0/dist/trix.umd.min.js"></script>
     <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
     <script>
@@ -29,7 +30,7 @@
                         form.closest('.message-body').remove();
 
                         // Optionally, you can display a success message
-                        alert('Notifikasi berhasil dihapus');
+                        alert('Notification deleted successfully');
                     },
                     error: function(xhr, status, error) {
                         console.error('Error deleting notification:', error);
@@ -162,10 +163,28 @@
         .show {
             display: block;
         }
+
+        /* Add this to your existing CSS styles */
+        .popover {
+            position: absolute;
+            top: 100%;
+            left: 50%;
+            transform: translateX(-50%);
+            z-index: 1000;
+            display: none;
+        }
     </style>
+    <!-- Bootstrap CSS -->
+    {{-- <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css"> --}}
+
+    <!-- Bootstrap JS Bundle (Bootstrap + Popper.js) -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+
+    @livewireStyles
 </head>
 
 <body>
+    @livewireScripts
     <!--  Body Wrapper -->
     <div class="page-wrapper" id="main-wrapper" data-layout="vertical" data-navbarbg="skin6" data-sidebartype="full"
         data-sidebar-position="fixed" data-header-position="fixed">
@@ -251,8 +270,6 @@
         }
     </script>
     <!-- Add this in your HTML file, make sure to include it before your script -->
-
-
 </body>
 
 </html>

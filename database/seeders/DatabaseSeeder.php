@@ -26,7 +26,7 @@ class DatabaseSeeder extends Seeder
             'username' => 'admin_perpus',
             'name' => 'Admin Perpustakaan',
             'email' => 'admin@gmail.com',
-            'prof_pic' => 'images/profile/user-2.png',
+            'prof_pic' => 'profile/PA9KAb9BRkvhYTKP3nUxuIz94jwtVLEbcEYkeJNM.jpg',
             'role' => 'admin',
             'password' => Hash::make('admin_perpus')
         ]);
@@ -35,9 +35,17 @@ class DatabaseSeeder extends Seeder
             'username' => 'gojooo',
             'name' => 'Gojo Satoru',
             'email' => 'gojo@gmail.com',
-            'prof_pic' => 'images/profile/user-1.jpg',
+            'prof_pic' => 'profile/QoXKKOXteWrvfSU3d7gU7FmAT91BVLzvgCGX2l1H.jpg',
             'role' => 'member',
             'password' => Hash::make('gojooo')
+        ]);
+        User::create([
+            'username' => 'toji_fushiguro',
+            'name' => 'Toji Fushiguro',
+            'email' => 'toji@gmail.com',
+            'prof_pic' => 'profile/QoXKKOXteWrvfSU3d7gU7FmAT91BVLzvgCGX2l1H.jpg',
+            'role' => 'member',
+            'password' => Hash::make('toji_fushiguro')
         ]);
 
         $this->call(BookSeeder::class);

@@ -10,12 +10,31 @@
         </ul>
         <div class="navbar-collapse justify-content-end px-0" id="navbarNav">
             <ul class="navbar-nav flex-row ms-auto align-items-center justify-content-end">
+                {{-- fav --}}
+                @if (auth()->user()->role === 'member')
+                    <li class="nav-item">
+                        <a class="nav-link nav-icon-hover" href="{{ route('book-favorite') }}">
+                            <svg xmlns="http://www.w3.org/2000/svg"
+                                class="icon icon-tabler icon-tabler-heart-filled text-danger" width="20"
+                                height="20" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none"
+                                stroke-linecap="round" stroke-linejoin="round">
+                                <path stroke="none" d="M0 0h24v24H0z" fill="none" />
+                                <path
+                                    d="M6.979 3.074a6 6 0 0 1 4.988 1.425l.037 .033l.034 -.03a6 6 0 0 1 4.733 -1.44l.246 .036a6 6 0 0 1 3.364 10.008l-.18 .185l-.048 .041l-7.45 7.379a1 1 0 0 1 -1.313 .082l-.094 -.082l-7.493 -7.422a6 6 0 0 1 3.176 -10.215z"
+                                    stroke-width="0" fill="currentColor" />
+                            </svg>
+                            <div class="notification bg-danger rounded-circle"></div>
+                        </a>
+                    </li>
+                @endif
+                {{-- adm cta --}}
                 @if (auth()->user()->role === 'admin')
                     <a href="/dashboard/books/create" class="btn btn-primary">Tambah Buku <i class="ti ti-plus"></i></a>
                     &nbsp;&nbsp;&nbsp;
                     <a href="/dashboard/types/create" class="btn btn-success">Tambah Genre <i
                             class="ti ti-plus"></i></a>
                 @endif
+                {{-- notif --}}
                 @if (auth()->user()->role === 'member')
                     <li class="nav-item dropdown">
                         <a class="nav-link nav-icon-hover" href="javascript:void(0)" id="drop2"

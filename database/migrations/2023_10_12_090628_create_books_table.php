@@ -16,6 +16,7 @@ return new class extends Migration {
             $table->string('publisher');
             // $table->string('type');
             $table->foreignId('type_id');
+            // $table->foreignId('type_id');
             $table->string('stock');
             $table->string('publish_date');
             $table->string('image');
