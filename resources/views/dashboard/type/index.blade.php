@@ -4,7 +4,7 @@
     @if (auth()->user()->role === 'admin')
         <div class="dropdown">
             <!-- The dropdown button -->
-            <button class="dropdown-button" onclick="toggleDropdown()">Export Data <i class="ti ti-file-text"></i></button>
+            <button class="dropdown-button" onclick="toggleDropdown1()">Export Data <i class="ti ti-file-text"></i></button>
 
             <!-- The dropdown content -->
             <div class="dropdown-content" id="myDropdown">

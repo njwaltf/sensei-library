@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Http\Controllers\Controller;
+use App\Models\Favorite;
 use App\Models\Notification;
 use App\Models\User;
 use Illuminate\Http\Request;
@@ -14,7 +15,8 @@ class ProfileController extends Controller
     {
         return view('dashboard.profile.index', [
             'title' => $this->title,
-            'notifications' => Notification::where('user_id', auth()->user()->id)->get()
+            'notifications' => Notification::where('user_id', auth()->user()->id)->get(),
+            'favorites' => Favorite::where('user_id', auth()->user()->id)->get()
         ]);
     }
 
@@ -42,7 +44,8 @@ class ProfileController extends Controller
     {
         return view('dashboard.profile.edit', [
             'title' => $this->title,
-            'notifications' => Notification::where('user_id', auth()->user()->id)->get()
+            'notifications' => Notification::where('user_id', auth()->user()->id)->get(),
+            'favorites' => Favorite::where('user_id', auth()->user()->id)->get()
         ]);
     }
 

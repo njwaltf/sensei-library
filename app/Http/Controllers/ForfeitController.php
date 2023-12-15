@@ -2,13 +2,17 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Requests\StoreForfeitRequest;
-use App\Http\Requests\UpdateForfeitRequest;
-use App\Models\Forfeit;
-use App\Models\Notification;
+use App\Exports\ForfeitExport;
 use Carbon\Carbon;
+use App\Models\Forfeit;
+use App\Models\Favorite;
+use Maatwebsite\Excel\Facades\Excel;
+use App\Models\Notification;
 use Illuminate\Http\Request;
 use Illuminate\Routing\Controller;
+use App\Http\Requests\StoreForfeitRequest;
+use Barryvdh\DomPDF\Facade\Pdf;
+use App\Http\Requests\UpdateForfeitRequest;
 
 class ForfeitController extends Controller
 {
@@ -24,6 +28,7 @@ class ForfeitController extends Controller
             'all_forfeits' => Forfeit::all(),
             'title' => $this->title,
             'notifications' => Notification::where('user_id', auth()->user()->id)->get(),
+            'favorites' => Favorite::where('user_id', auth()->user()->id)->get()
             // 'result' => $result
         ]);
     }
@@ -60,7 +65,8 @@ class ForfeitController extends Controller
         return view('dashboard.forfeit.edit-new', [
             'title' => $this->title,
             'forfeit' => $forfeit,
-            'notifications' => Notification::where('user_id', auth()->user()->id)->get()
+            'notifications' => Notification::where('user_id', auth()->user()->id)->get(),
+            'favorites' => Favorite::where('user_id', auth()->user()->id)->get()
         ]);
     }
 
@@ -104,5 +110,18 @@ class ForfeitController extends Controller
         }
         $book = Forfeit::where('id', $request->id)->update($data);
         return redirect('/dashboard/forfeits/')->with('successUpload', "Bukti pembayaran berhasil diupload!");
+    }
+    public function exportForfeits()
+    {
+        return Excel::download(new ForfeitExport, 'forfeits_new_updated_' . Carbon::now() . '.xlsx');
+    }
+    public function exportForfeitPDF()
+    {
+        // $book = Book::where('id', $request->id)->get('id');
+        $data['forfeits'] = Forfeit::all();
+        // $pdf = Pdf::loadView('pdf.qr', $book);
+        // return $pdf->stream();
+        $pdf = Pdf::loadView('pdf.forfeit', $data);
+        return $pdf->download('forfeits_Data_Updated_' . Carbon::now() . '.pdf');
     }
 }

@@ -7,6 +7,7 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\StoreBookRequest;
 use App\Http\Requests\UpdateBookRequest;
 use App\Models\Book;
+use App\Models\Favorite;
 use App\Models\Notification;
 use App\Models\Type;
 use Barryvdh\DomPDF\Facade\Pdf;
@@ -33,7 +34,8 @@ class BookController extends Controller
         return view('dashboard.book.index', [
             'title' => $this->title,
             'books' => $books,
-            'notifications' => Notification::where('user_id', auth()->user()->id)->get()
+            'notifications' => Notification::where('user_id', auth()->user()->id)->get(),
+            'favorites' => Favorite::where('user_id', auth()->user()->id)->get()
         ]);
     }
 
@@ -45,7 +47,8 @@ class BookController extends Controller
         return view('dashboard.book.create', [
             'title' => $this->title,
             'types' => Type::all(),
-            'notifications' => Notification::where('user_id', auth()->user()->id)->get()
+            'notifications' => Notification::where('user_id', auth()->user()->id)->get(),
+            'favorites' => Favorite::where('user_id', auth()->user()->id)->get()
         ]);
     }
 
@@ -83,7 +86,8 @@ class BookController extends Controller
             'title' => $this->title,
             'book' => $book,
             // 'date_now' => $date_now,
-            'notifications' => Notification::where('user_id', auth()->user()->id)->get()
+            'notifications' => Notification::where('user_id', auth()->user()->id)->get(),
+            'favorites' => Favorite::where('user_id', auth()->user()->id)->get()
         ]);
     }
 
@@ -96,7 +100,8 @@ class BookController extends Controller
             'title' => $this->title,
             'book' => $book,
             'types' => Type::all(),
-            'notifications' => Notification::where('user_id', auth()->user()->id)->get()
+            'notifications' => Notification::where('user_id', auth()->user()->id)->get(),
+            'favorites' => Favorite::where('user_id', auth()->user()->id)->get()
         ]);
     }
 

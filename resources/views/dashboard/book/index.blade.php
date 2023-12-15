@@ -15,10 +15,8 @@
                     if (response.status === 'success') {
                         // Update the view here
                         // You can use response.favorite to get the newly created favorite data
-
                         // Example: You may change the button appearance
                         $(button).removeClass('btn-outline-danger').addClass('btn-danger');
-
                         // Additional: Show a success message or perform other actions
                         alert('Added to favorites successfully!');
                     } else {
@@ -31,7 +29,6 @@
                     alert('Error adding to favorites');
                 }
             });
-
             // Prevent the form from submitting and the page from reloading
             return false;
         }
@@ -84,7 +81,7 @@
     @if (auth()->user()->role === 'admin')
         <div class="dropdown">
             <!-- The dropdown button -->
-            <button class="dropdown-button" onclick="toggleDropdown()">Export Data <i class="ti ti-file-text"></i></button>
+            <button class="dropdown-button" onclick="toggleDropdown1()">Export Data <i class="ti ti-file-text"></i></button>
 
             <!-- The dropdown content -->
             <div class="dropdown-content" id="myDropdown">
@@ -253,14 +250,14 @@
                                     <a href="/dashboard/books/{{ $book->id }}/edit" class="btn btn-warning m-1">Ubah
                                         <i class="ti ti-edit"></i></a>
                                     {{-- delete --}}
-                                    <form action="/dashboard/books/{{ $book->id }}" method="post" class="d-inline">
+                                    {{-- <form action="/dashboard/books/{{ $book->id }}" method="post" class="d-inline">
                                         @csrf
                                         @method('delete')
                                         <!-- Add to favorites button -->
                                         <button class="btn btn-outline-danger btn-circle" onclick="addToFavorites(this)">
                                             <i class="ti ti-heart"></i>
                                         </button>
-                                    </form>
+                                    </form> --}}
                                 </td>
                             </tr>
                         @empty

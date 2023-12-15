@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Book;
 use App\Models\Booking;
+use App\Models\Favorite;
 use App\Models\Forfeit;
 use App\Models\Notification;
 use App\Models\User;
@@ -76,6 +77,7 @@ class DashboardController extends Controller
             'count_book' => $count_book,
             'latest_bookings' => Booking::latest()->where('user_id', auth()->user()->id)->take(5)->get(),
             'all_latest_bookings' => Booking::latest()->take(5)->get(),
+            'favorites' => Favorite::where('user_id', auth()->user()->id)->get()
         ]);
     }
 }

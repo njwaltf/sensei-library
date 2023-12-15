@@ -10,10 +10,30 @@
     <link rel="stylesheet" href="https://cdn.datatables.net/1.13.6/css/jquery.dataTables.min.css">
     {{-- trix editor --}}
     {{-- <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css"> --}}
-    <link rel="stylesheet" type="text/css" href="https://unpkg.com/trix@2.0.0/dist/trix.css">
+    {{-- <link rel="stylesheet" type="text/css" href="https://unpkg.com/trix@2.0.0/dist/trix.css"> --}}
 
     <script type="text/javascript" src="https://unpkg.com/trix@2.0.0/dist/trix.umd.min.js"></script>
     <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
+    <script>
+        // Function to toggle the dropdown content visibility
+        function toggleDropdown1() {
+            var dropdown = document.getElementById("myDropdown");
+            dropdown.classList.toggle("show");
+        }
+
+        // Close the dropdown if the user clicks outside of it
+        window.onclick = function(event) {
+            if (!event.target.matches('.dropdown-button')) {
+                var dropdowns = document.getElementsByClassName("dropdown-content");
+                for (var i = 0; i < dropdowns.length; i++) {
+                    var openDropdown = dropdowns[i];
+                    if (openDropdown.classList.contains('show')) {
+                        openDropdown.classList.remove('show');
+                    }
+                }
+            }
+        }
+    </script>
     <script>
         $(document).ready(function() {
             $('.delete-button').on('click', function(e) {
@@ -39,15 +59,6 @@
             });
         });
     </script>
-
-    <style>
-        .delete-button:hover {
-            /* Add your hover styles here */
-            color: red;
-            /* For example, change text color to red on hover */
-            /* Add any other styles or animations you want */
-        }
-    </style>
 
     <style>
         /* Add this style in your head or in your CSS file */
@@ -117,10 +128,9 @@
             to {
                 opacity: 0;
             }
+
         }
-    </style>
-    <style>
-        /* Style the dropdown container */
+
         .dropdown {
             position: relative;
             display: inline-block;
@@ -134,6 +144,7 @@
             border: none;
             cursor: pointer;
             border-radius: 10px;
+            margin-bottom: 10px;
         }
 
         /* Style the dropdown content (hidden by default) */
@@ -163,22 +174,12 @@
         .show {
             display: block;
         }
-
-        /* Add this to your existing CSS styles */
-        .popover {
-            position: absolute;
-            top: 100%;
-            left: 50%;
-            transform: translateX(-50%);
-            z-index: 1000;
-            display: none;
-        }
     </style>
     <!-- Bootstrap CSS -->
     {{-- <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css"> --}}
 
     <!-- Bootstrap JS Bundle (Bootstrap + Popper.js) -->
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    {{-- <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script> --}}
 
     @livewireStyles
 </head>
@@ -248,26 +249,6 @@
             /* verbose= */
             false);
         html5QrcodeScanner.render(onScanSuccess, onScanFailure);
-    </script>
-    <script>
-        // Function to toggle the dropdown content visibility
-        function toggleDropdown() {
-            var dropdown = document.getElementById("myDropdown");
-            dropdown.classList.toggle("show");
-        }
-
-        // Close the dropdown if the user clicks outside of it
-        window.onclick = function(event) {
-            if (!event.target.matches('.dropdown-button')) {
-                var dropdowns = document.getElementsByClassName("dropdown-content");
-                for (var i = 0; i < dropdowns.length; i++) {
-                    var openDropdown = dropdowns[i];
-                    if (openDropdown.classList.contains('show')) {
-                        openDropdown.classList.remove('show');
-                    }
-                }
-            }
-        }
     </script>
     <!-- Add this in your HTML file, make sure to include it before your script -->
 </body>

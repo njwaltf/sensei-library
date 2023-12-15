@@ -2,8 +2,9 @@
 
 namespace App\Http\Controllers;
 
-use Illuminate\Http\Request;
+use App\Models\Favorite;
 use App\Models\Notification;
+use Illuminate\Routing\Controller;
 
 class QRController extends Controller
 {
@@ -12,7 +13,8 @@ class QRController extends Controller
     {
         return view("qr.index", [
             "title" => $this->title,
-            'notifications' => Notification::where('user_id', auth()->user()->id)->get()
+            'notifications' => Notification::where('user_id', auth()->user()->id)->get(),
+            'favorites' => Favorite::where('user_id', auth()->user()->id)->get()
         ]);
     }
 }

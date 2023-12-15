@@ -8,12 +8,13 @@ use App\Http\Requests\StoreBookingRequest;
 use App\Http\Requests\UpdateBookingRequest;
 use App\Models\Book;
 use App\Models\Booking;
+use App\Models\Favorite;
 use App\Models\Forfeit;
 use App\Models\Notification;
-use Carbon\Carbon;
 use Barryvdh\DomPDF\Facade\Pdf;
-use Maatwebsite\Excel\Facades\Excel;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
+use Maatwebsite\Excel\Facades\Excel;
 
 
 class BookingController extends Controller
@@ -37,6 +38,7 @@ class BookingController extends Controller
             'all_bookings' => Booking::latest()->get(),
             'title' => $this->title,
             'notifications' => Notification::where('user_id', auth()->user()->id)->get(),
+            'favorites' => Favorite::where('user_id', auth()->user()->id)->get()
             // 'result' => $result
         ]);
     }
@@ -81,7 +83,8 @@ class BookingController extends Controller
         return view('dashboard.booking.show', [
             'title' => $this->title,
             'notifications' => Notification::where('user_id', auth()->user()->id)->get(),
-            'booking' => $booking
+            'booking' => $booking,
+            'favorites' => Favorite::where('user_id', auth()->user()->id)->get()
         ]);
     }
 
@@ -93,7 +96,8 @@ class BookingController extends Controller
         return view('dashboard.booking.edit', [
             'title' => $this->title,
             'booking' => $booking,
-            'notifications' => Notification::where('user_id', auth()->user()->id)->get()
+            'notifications' => Notification::where('user_id', auth()->user()->id)->get(),
+            'favorites' => Favorite::where('user_id', auth()->user()->id)->get()
         ]);
     }
 

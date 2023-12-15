@@ -78,9 +78,11 @@ Route::get('excel/export-book/', [BookController::class, 'exportBooks']);
 Route::get('excel/export-booking/', [BookingController::class, 'exportBookings']);
 Route::get('excel/export-user/', [UserController::class, 'exportUsers']);
 Route::get('excel/export-type/', [TypeController::class, 'exportTypes']);
+Route::get('excel/export-forfeit/', [ForfeitController::class, 'exportForfeits']);
 // pdf
 Route::get('/qr/export/{id}', [BookController::class, 'exportPDF']);
 Route::get('/pdf/export-book/', [BookController::class, 'exportBookPDF']);
+Route::get('/pdf/export-forfeit/', [ForfeitController::class, 'exportForfeitPDF']);
 Route::get('/pdf/export-booking/', [BookingController::class, 'exportBookingPDF']);
 Route::get('/pdf/export-user/', [UserController::class, 'exportUserPDF']);
 Route::get('/pdf/export-type/', [TypeController::class, 'exportTypePDF']);

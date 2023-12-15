@@ -4,6 +4,21 @@
         Daftar Denda</h1>
     <!--  Row 1 -->
     <div class="row py-5">
+        @if (auth()->user()->role === 'admin')
+            <div class="dropdown">
+                <!-- The dropdown button -->
+                <button class="dropdown-button" onclick="toggleDropdown1()">Export Data <i
+                        class="ti ti-file-text"></i></button>
+
+                <!-- The dropdown content -->
+                <div class="dropdown-content" id="myDropdown">
+                    <a href="{{ url('pdf/export-forfeit/') }}">PDF</a>
+                    <a href="{{ url('excel/export-forfeit/') }}">Excel</a>
+                    {{-- <a href="#">Something else here</a> --}}
+                </div>
+            </div>
+            {{-- <a class="btn btn-info my-3" href="">Export Book Data to pdf</a> --}}
+        @endif
         {{-- <h1>{{ auth()->user()->rombel_id }}</h1> --}}
         @if (session()->has('success'))
             <div class="alert alert-success alert-dismissible fade show" role="alert">

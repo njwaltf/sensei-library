@@ -2,16 +2,17 @@
 
 namespace App\Http\Controllers;
 
+use Carbon\Carbon;
+use App\Models\Book;
+use App\Models\Type;
+use App\Models\Favorite;
 use App\Exports\TypesExport;
+use App\Models\Notification;
+use Barryvdh\DomPDF\Facade\Pdf;
 use App\Http\Controllers\Controller;
+use Maatwebsite\Excel\Facades\Excel;
 use App\Http\Requests\StoreTypeRequest;
 use App\Http\Requests\UpdateTypeRequest;
-use App\Models\Book;
-use App\Models\Notification;
-use App\Models\Type;
-use Barryvdh\DomPDF\Facade\Pdf;
-use Carbon\Carbon;
-use Maatwebsite\Excel\Facades\Excel;
 
 class TypeController extends Controller
 {
@@ -24,7 +25,8 @@ class TypeController extends Controller
         return view('dashboard.type.index', [
             'title' => $this->title,
             'types' => Type::latest()->get(),
-            'notifications' => Notification::where('user_id', auth()->user()->id)->get()
+            'notifications' => Notification::where('user_id', auth()->user()->id)->get(),
+            'favorites' => Favorite::where('user_id', auth()->user()->id)->get()
         ]);
     }
 
@@ -35,7 +37,8 @@ class TypeController extends Controller
     {
         return view('dashboard.type.create', [
             'title' => $this->title,
-            'notifications' => Notification::where('user_id', auth()->user()->id)->get()
+            'notifications' => Notification::where('user_id', auth()->user()->id)->get(),
+            'favorites' => Favorite::where('user_id', auth()->user()->id)->get()
         ]);
     }
 
@@ -62,7 +65,8 @@ class TypeController extends Controller
             'title' => $this->title,
             'type' => $type,
             // 'date_now' => $date_now,
-            'notifications' => Notification::where('user_id', auth()->user()->id)->get()
+            'notifications' => Notification::where('user_id', auth()->user()->id)->get(),
+            'favorites' => Favorite::where('user_id', auth()->user()->id)->get()
         ]);
     }
 
@@ -74,7 +78,8 @@ class TypeController extends Controller
         return view('dashboard.type.edit', [
             'title' => $this->title,
             'type' => $type,
-            'notifications' => Notification::where('user_id', auth()->user()->id)->get()
+            'notifications' => Notification::where('user_id', auth()->user()->id)->get(),
+            'favorites' => Favorite::where('user_id', auth()->user()->id)->get()
         ]);
     }
 

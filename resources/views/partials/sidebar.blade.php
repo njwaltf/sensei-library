@@ -23,6 +23,15 @@
                                 <span class="hide-menu">Dashboard</span>
                             </a>
                         </li>
+                        <li class="sidebar-item">
+                            <a class="sidebar-link @if (request()->segment(2) === 'profile') active @endif"
+                                href="{{ route('user-profile') }}" aria-expanded="false">
+                                <span>
+                                    <i class="ti ti-user-circle"></i>
+                                </span>
+                                <span class="hide-menu">My Profile</span>
+                            </a>
+                        </li>
                         {{-- member --}}
                         @if (auth()->user()->role === 'member')
                             <li class="nav-small-cap">
@@ -38,7 +47,15 @@
                                     <span class="hide-menu">Pinjam Buku</span>
                                 </a>
                             </li>
-
+                            <li class="sidebar-item">
+                                <a class="sidebar-link @if (request()->segment(2) === 'favorite') active @endif"
+                                    href="{{ route('book-favorite') }}" aria-expanded="false">
+                                    <span>
+                                        <i class="ti ti-heart"></i>
+                                    </span>
+                                    <span class="hide-menu">My Favorite</span>
+                                </a>
+                            </li>
                             <li class="nav-small-cap">
                                 <i class="ti ti-dots nav-small-cap-icon fs-4"></i>
                                 <span class="hide-menu">Peminjaman</span>
@@ -109,7 +126,7 @@
                                 <a class="sidebar-link @if (request()->segment(2) === 'types') active @endif"
                                     href="/dashboard/types" aria-expanded="false">
                                     <span>
-                                        <i class="ti ti-book"></i>
+                                        <i class="ti ti-category"></i>
                                     </span>
                                     <span class="hide-menu">Kelola Genre Buku</span>
                                 </a>

@@ -2,13 +2,15 @@
 
 namespace App\Http\Controllers;
 
-use Carbon\Carbon;
-// use App\Models\Book;
-use App\Models\User;
 use App\Exports\UsersExport;
+// use App\Models\Book;
+use App\Models\Book;
+use App\Models\Favorite;
 use App\Models\Notification;
-use Illuminate\Http\Request;
+use App\Models\User;
 use Barryvdh\DomPDF\Facade\Pdf;
+use Carbon\Carbon;
+use Illuminate\Http\Request;
 use Illuminate\Routing\Controller;
 use Illuminate\Support\Facades\Hash;
 use Maatwebsite\Excel\Facades\Excel;
@@ -24,6 +26,7 @@ class UserController extends Controller
         return view('dashboard.user.index', [
             'title' => $this->title,
             'notifications' => Notification::where('user_id', auth()->user()->id)->get(),
+            'favorites' => Favorite::where('user_id', auth()->user()->id)->get(),
             'users' => User::all()
         ]);
     }
@@ -35,7 +38,8 @@ class UserController extends Controller
     {
         return view('dashboard.user.create', [
             'notifications' => Notification::where('user_id', auth()->user()->id)->get(),
-            'title' => $this->title
+            'title' => $this->title,
+            'favorites' => Favorite::where('user_id', auth()->user()->id)->get()
         ]);
     }
 
@@ -67,7 +71,8 @@ class UserController extends Controller
         return view('dashboard.user.show', [
             'title' => $this->title,
             'user' => $user,
-            'notifications' => Notification::where('user_id', auth()->user()->id)->get()
+            'notifications' => Notification::where('user_id', auth()->user()->id)->get(),
+            'favorites' => Favorite::where('user_id', auth()->user()->id)->get()
         ]);
     }
 
@@ -79,7 +84,8 @@ class UserController extends Controller
         return view('dashboard.user.edit', [
             'user' => $user,
             'notifications' => Notification::where('user_id', auth()->user()->id)->get(),
-            'title' => $this->title
+            'title' => $this->title,
+            'favorites' => Favorite::where('user_id', auth()->user()->id)->get()
         ]);
     }
 
