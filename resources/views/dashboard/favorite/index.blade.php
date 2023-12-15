@@ -1,5 +1,9 @@
 @extends('layouts.app')
+
 @section('main')
+    <!-- Add this line at the top of your view to listen for Livewire events -->
+    @livewireScripts
+
     <style>
         /* Add this CSS for zoom effect on hover */
         .zoom-card:hover {
@@ -43,11 +47,11 @@
             color: white;
         }
     </style>
+
     <h1>Daftar Buku Favorit {{ explode(' ', auth()->user()->name)[0] }}</h1>
 
     <!--  Row 1 -->
     <div class="row py-5">
-        {{-- <h1>{{ auth()->user()->rombel_id }}</h1> --}}
         @if (session()->has('success'))
             <div class="alert alert-success alert-dismissible fade show" role="alert">
                 {!! session('success') !!}
@@ -68,36 +72,37 @@
                 <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
             </div>
         @endif
+
         @if (auth()->user()->role === 'member')
             <div class="container-fluid">
-                {{-- <div id="reader" width="600px"></div> --}}
                 <div class="row">
-                    {{-- @dd($favorites) --}}
                     @forelse ($favorites as $item)
                         <div class="col-md-3 col-lg-3">
                             <div class="card-container zoom-card">
-                                <!-- Wrap the card content with the <a> tag and assign the card-link class -->
                                 <a href="/dashboard/books/{{ $item->book->id }}" class="card-link">
-                                    <div class="card d-flex">
+                                    <div class="card d-flex" id="card-{{ $item->book->id }}">
                                         <img src="{{ asset('storage/' . $item->book->image) }}" class="card-img-top"
                                             alt="...">
                                         <div class="card-body d-flex flex-column">
                                             <h5 class="card-title">{{ $item->book->title }}</h5>
                                             <p class="card-text my-3">{{ Str::limit($item->book->desc, 50, '...') }}</p>
 
-                                            <!-- Buttons in one row on the right side -->
                                             <div class="d-flex justify-content-start mt-auto py-3">
-                                                <a href="/dashboard/books/" class="btn btn-primary mr-2"
-                                                    style="margin-right: 10px;">Lihat
+                                                <a href="/dashboard/books/{{ $item->book->id }}"
+                                                    class="btn btn-primary mr-2" style="margin-right: 10px;">Lihat
                                                     Detail</a>
-
-                                                <livewire:favorite-button :bookId="$item->book->id" :key="$item->id" />
-
+                                                <script>
+                                                    Livewire.on('favoriteStatusUpdated', (isFavorite, bookId) => {
+                                                        if (!isFavorite) {
+                                                            document.getElementById('card-' + bookId).remove();
+                                                        }
+                                                    });
+                                                </script>
+                                                <livewire:favorite-button :bookId="$item->book->id" :key="$item->book->id" />
                                             </div>
                                         </div>
                                     </div>
                                 </a>
-                                <!-- Add more card elements as needed -->
                             </div>
                         </div>
                     @empty
@@ -110,47 +115,10 @@
                             </div>
                         </div>
                     @endforelse
-                    {{-- @forelse ($favorites as $item)
-                        <div class="col-md-3 col-lg-3">
-                            <div class="card-container zoom-card">
-                                <!-- Wrap the card content with the <a> tag and assign the card-link class -->
-                                <a href="/dashboard/books/{{ $item->book->id }}" class="card-link">
-                                    <div class="card d-flex">
-                                        <img src="{{ asset('storage/' . $item->book->image) }}" class="card-img-top"
-                                            alt="...">
-                                        <div class="card-body d-flex flex-column">
-                                            <h5 class="card-title">{{ $item->book->title }}</h5>
-                                            <p class="card-text my-3">{{ Str::limit($item->book->desc, 50, '...') }}</p>
-
-                                            <!-- Buttons in one row on the right side -->
-                                            <div class="d-flex justify-content-start mt-auto py-3">
-                                                <a href="/dashboard/books/" class="btn btn-primary mr-2"
-                                                    style="margin-right: 10px;">Lihat
-                                                    Detail</a>
-
-                                                <livewire:favorite-button :book="$item->book" :key="$item->id" />
-
-                                            </div>
-                                        </div>
-                                    </div>
-                                </a>
-                                <!-- Add more card elements as needed -->
-                            </div>
-                        </div>
-                    @empty
-                        <div class="row">
-                            <div class="col-lg-12">
-                                <h2 class="text-center m-5">Belum ada favorit nih</h2>
-                            </div>
-                            <div class="col-lg-12 text-center">
-                                <img src="{{ asset('images/Search-pana 1.png') }}" alt="" srcset="">
-                            </div>
-                        </div>
-                    @endforelse --}}
                 </div>
             </div>
         @else
-            <h2>You dont have permission</h2>
+            <h2>You don't have permission</h2>
         @endif
     </div>
 @endsection
