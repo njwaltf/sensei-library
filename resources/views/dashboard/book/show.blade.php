@@ -145,7 +145,12 @@
                     <!-- Comment Card -->
                     <div class="card" style="height: 500px; overflow-y: auto;">
                         <div class="card-header">
-                            <h5 class="card-title fw-semibold m-3">Lihat komentar tentang {{ $book->title }}</h5>
+                            @if ($comments->count() > 0)
+                                <h5 class="card-title fw-semibold m-3">Lihat {{ $comments->count() }} komentar tentang
+                                    {{ $book->title }}</h5>
+                            @else
+                                <h5 class="card-title fw-semibold m-3">Lihat komentar tentang {{ $book->title }}</h5>
+                            @endif
                         </div>
                         <div class="card-body" style="overflow-y: auto;">
                             @if (session()->has('successComment'))
@@ -183,8 +188,8 @@
                                         <h5 class="text-center m-5">Belum ada komentar tentang buku ini</h5>
                                     </div>
                                     <div class="col-lg-12 text-center">
-                                        <img src="{{ asset('images/Search-pana 1.png') }}" alt="" srcset=""
-                                            height="300" width="300">
+                                        <img src="{{ asset('images/Status update-pana 1.png') }}" alt=""
+                                            srcset="" height="300" width="300">
                                     </div>
                                 </div>
                             @endforelse
