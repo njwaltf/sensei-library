@@ -14,6 +14,13 @@
 
     <script type="text/javascript" src="https://unpkg.com/trix@2.0.0/dist/trix.umd.min.js"></script>
     <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/emojionearea/3.4.1/emojionearea.min.css"
+        integrity="sha512-vEia6TQGr3FqC6h55/NdU3QSM5XR6HSl5fW71QTKrgeER98LIMGwymBVM867C1XHIkYD9nMTfWK2A0xcodKHNA=="
+        crossorigin="anonymous" referrerpolicy="no-referrer" />
+    {{-- <script src="{{ asset('js/jquery.min.js') }}"></script> --}}
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/emojionearea/3.4.1/emojionearea.min.js"
+        integrity="sha512-ZuxZDe3rBE+OMV5ki0VZC2MSCp6NaoTiDHvYenVag+L/Agxb+MMKHZqVNXFXYX/ruuRofd5setKzyCupZCURvQ=="
+        crossorigin="anonymous" referrerpolicy="no-referrer"></script>
     <script>
         // Function to toggle the dropdown content visibility
         function toggleDropdown1() {

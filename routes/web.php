@@ -1,20 +1,22 @@
 <?php
 
 use App\Exports\UsersExport;
-use Illuminate\Support\Facades\Route;
-use App\Http\Controllers\QRController;
 use App\Http\Controllers\BookController;
-use App\Http\Controllers\TypeController;
-use App\Http\Controllers\UserController;
-use App\Http\Controllers\LoginController;
 use App\Http\Controllers\BookingController;
+use App\Http\Controllers\CommentController;
+use App\Http\Controllers\DashboardController;
+use App\Http\Controllers\FavoriteController;
 use App\Http\Controllers\ForfeitController;
 use App\Http\Controllers\LandingController;
-use App\Http\Controllers\ProfileController;
-use App\Http\Controllers\FavoriteController;
-use App\Http\Controllers\RegisterController;
-use App\Http\Controllers\DashboardController;
+use App\Http\Controllers\LoginController;
 use App\Http\Controllers\NotificationController;
+use App\Http\Controllers\ProfileController;
+use App\Http\Controllers\QRController;
+use App\Http\Controllers\RegisterController;
+use App\Http\Controllers\TypeController;
+use App\Http\Controllers\UserController;
+use Illuminate\Support\Facades\Route;
+
 
 
 
@@ -41,6 +43,8 @@ Route::get('/login', [LoginController::class, 'index'])->name('login');
 Route::post('/login', [LoginController::class, 'auth']);
 
 Route::prefix('/dashboard')->middleware('auth')->group(function () {
+    // komen
+    Route::post('/books/{book}/comments', [CommentController::class, 'store'])->name('comments.store');
     // add to fav
     Route::post('/favorite', [FavoriteController::class, 'store'])->name('add-favorite');
     Route::get('/favorite', [FavoriteController::class, 'index'])->name('book-favorite');
@@ -92,4 +96,5 @@ Route::get('/qr/scanner', [QRController::class, 'index'])->name('qr-scanner');
 // Route::get('/qr/export/{id}', function () {
 //     return view('pdf.qr');
 // });
+
 

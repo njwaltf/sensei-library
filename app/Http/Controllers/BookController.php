@@ -7,6 +7,7 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\StoreBookRequest;
 use App\Http\Requests\UpdateBookRequest;
 use App\Models\Book;
+use App\Models\Comment;
 use App\Models\Favorite;
 use App\Models\Notification;
 use App\Models\Type;
@@ -24,20 +25,32 @@ class BookController extends Controller
     private $title = 'Daftar Buku | Perpus';
     public function index(Request $request)
     {
+        $query = Book::query();
+
+        // Apply search
         if ($request->filled('search_keyword')) {
             $keyword = $request->input('search_keyword');
-            $books = Book::search($keyword)->get();
-        } else {
-            $books = Book::get();
+            $query->search($keyword);
         }
-        // $books = Book::where('column', 'value...')->get();
+
+        // Apply genre filter
+        if ($request->filled('genre')) {
+            $genreId = $request->input('genre');
+            $query->FilterByGenre($genreId);
+        }
+
+        // Get the final result
+        $books = $query->get();
+
         return view('dashboard.book.index', [
             'title' => $this->title,
             'books' => $books,
             'notifications' => Notification::where('user_id', auth()->user()->id)->get(),
-            'favorites' => Favorite::where('user_id', auth()->user()->id)->get()
+            'favorites' => Favorite::where('user_id', auth()->user()->id)->get(),
+            'types' => Type::all(),
         ]);
     }
+
 
     /**
      * Show the form for creating a new resource.
@@ -87,7 +100,8 @@ class BookController extends Controller
             'book' => $book,
             // 'date_now' => $date_now,
             'notifications' => Notification::where('user_id', auth()->user()->id)->get(),
-            'favorites' => Favorite::where('user_id', auth()->user()->id)->get()
+            'favorites' => Favorite::where('user_id', auth()->user()->id)->get(),
+            'comments' => Comment::where('book_id', $book->id)->latest()->get()
         ]);
     }
 

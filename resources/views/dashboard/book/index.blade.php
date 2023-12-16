@@ -1,39 +1,6 @@
 @extends('layouts.app')
 @section('main')
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
-    <script>
-        function addToFavorites(button) {
-            var form = $(button).closest('form');
-            var formData = form.serialize();
-
-            $.ajax({
-                type: "POST",
-                url: form.attr('action'),
-                data: formData,
-                dataType: 'json',
-                success: function(response) {
-                    if (response.status === 'success') {
-                        // Update the view here
-                        // You can use response.favorite to get the newly created favorite data
-                        // Example: You may change the button appearance
-                        $(button).removeClass('btn-outline-danger').addClass('btn-danger');
-                        // Additional: Show a success message or perform other actions
-                        alert('Added to favorites successfully!');
-                    } else {
-                        // Handle errors if needed
-                        alert('Error adding to favorites');
-                    }
-                },
-                error: function(xhr, status, error) {
-                    // Handle errors if needed
-                    alert('Error adding to favorites');
-                }
-            });
-            // Prevent the form from submitting and the page from reloading
-            return false;
-        }
-    </script>
-
     <style>
         /* Add this CSS for zoom effect on hover */
         .zoom-card:hover {
@@ -87,10 +54,8 @@
             <div class="dropdown-content" id="myDropdown">
                 <a href="{{ url('pdf/export-book/') }}">PDF</a>
                 <a href="{{ url('excel/export-book/') }}">Excel</a>
-                {{-- <a href="#">Something else here</a> --}}
             </div>
         </div>
-        {{-- <a class="btn btn-info my-3" href="">Export Book Data to pdf</a> --}}
     @endif
     <!--  Row 1 -->
     <div class="row py-5">
@@ -119,19 +84,31 @@
             <div class="container-fluid">
                 <form method="get">
                     <div class="row">
-                        <div class="col-lg-8">
+                        <div class="col-lg-7">
                             <div class="mb-4">
                                 <input type="text" class="form-control" name="search_keyword"
                                     placeholder="Cari buku atau pengarang ..."
                                     value="{{ request()->get('search_keyword') }}">
                             </div>
                         </div>
-                        <div class="col-lg-4">
+                        <div class="col-lg-3">
+                            <div class="mb-4">
+                                <select class="form-control" name="genre">
+                                    <option value="" selected>Cari berdasarkan genre</option>
+                                    @foreach ($types as $genre)
+                                        <option value="{{ $genre->id }}"
+                                            {{ request()->get('genre') == $genre->id ? 'selected' : '' }}>
+                                            {{ $genre->name }}
+                                        </option>
+                                    @endforeach
+                                </select>
+                            </div>
+                        </div>
+                        <div class="col-lg-2">
                             <button class="btn btn-primary" type="submit">Cari <i class="ti ti-search"></i></button>
                         </div>
                     </div>
                 </form>
-                {{-- <div id="reader" width="600px"></div> --}}
                 <div class="row">
                     @forelse ($books as $item)
                         <div class="col-md-3 col-lg-3">
@@ -149,39 +126,11 @@
                                             <div class="d-flex justify-content-start mt-auto py-3">
                                                 <a href="/dashboard/books/{{ $item->id }}" class="btn btn-primary mr-2"
                                                     style="margin-right: 10px;">Lihat Detail</a>
-
                                                 <livewire:favorite-button :bookId="$item->id" :key="$item->id" />
-
                                             </div>
                                         </div>
                                     </div>
                                 </a>
-                                <!-- Add more card elements as needed -->
-                                {{-- <script>
-                                    // Get a reference to the button element with the "active" class
-                                    var button = document.querySelector('.active');
-
-                                    // Get a reference to the popup container
-                                    var popupContainer = document.getElementById('popupContainer');
-
-                                    // Add an event listener for the click event
-                                    button.addEventListener('click', function() {
-                                        // Show the popup or perform any other action
-                                        showPopup();
-                                        alert('Already added to favorite!');
-                                    });
-
-                                    // Function to show the popup
-                                    // function showPopup() {
-                                    //     // Show the popup container
-                                    //     popupContainer.style.display = 'block';
-
-                                    //     // Close the popup after a certain duration (e.g., 3 seconds)
-                                    //     setTimeout(function() {
-                                    //         popupContainer.style.display = 'none';
-                                    //     }, 3000);
-                                    // }
-                                </script> --}}
                             </div>
                         </div>
                     @empty
@@ -195,7 +144,6 @@
                         </div>
                     @endforelse
                 </div>
-
             </div>
         @else
             <div class="table-responsive">
@@ -272,50 +220,4 @@
             </div>
         @endif
     </div>
-    <!-- ... Your existing HTML code ... -->
-
-    {{-- <!-- Separate script for handling favorite button click and showing popup -->
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
-    <script>
-        document.addEventListener('DOMContentLoaded', function() {
-            // Get all elements with the class "btn-circle"
-            var favoriteButtons = document.querySelectorAll('.btn-circle');
-
-            // Add a click event listener to each button
-            favoriteButtons.forEach(function(button) {
-                button.addEventListener('click', function() {
-                    // Show the popup or perform any other action
-                    alert('Already added to favorites');
-                });
-            });
-
-            // Function to show the popup
-            // function showPopup() {
-            //     // Your code to display the popup goes here
-            //     // For example, you can use a modal or create a custom popup element
-
-            //     // Example using Bootstrap modal
-            //     $('#myModal').modal('show');
-            // }
-        });
-    </script> --}}
-
-    <!-- Optional: Bootstrap modal example (add this to the end of your view) -->
-    {{-- <div class="modal" id="myModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-        <div class="modal-dialog">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title" id="exampleModalLabel">Favorite Added</h5>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                </div>
-                <div class="modal-body">
-                    Book has been added to your favorites!
-                </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                </div>
-            </div>
-        </div>
-    </div> --}}
-
 @endsection

@@ -17,6 +17,7 @@
         "laravel/tinker": "^2.8",
         "livewire/livewire": "^3.3",
         "maatwebsite/excel": "^3.1",
+        "mervick/emojionearea": "^3.4",
         "simplesoftwareio/simple-qrcode": "^4.2"
     },
     "require-dev": {
