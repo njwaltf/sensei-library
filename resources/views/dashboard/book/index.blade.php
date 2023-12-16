@@ -122,7 +122,6 @@
                                             <h5 class="card-title">{{ $item->title }}</h5>
                                             <p class="card-text my-3 text-muted">{{ Str::limit($item->desc, 50, '...') }}
                                             </p>
-
                                             <!-- Buttons in one row on the right side -->
                                             <div class="d-flex justify-content-start mt-auto py-3">
                                                 <a href="/dashboard/books/{{ $item->id }}" class="btn btn-primary mr-2"
