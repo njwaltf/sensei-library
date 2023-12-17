@@ -161,6 +161,22 @@
                                         aria-label="Close"></button>
                                 </div>
                             @endif
+                            @if (session()->has('successDeleteComment'))
+                                <div class="alert alert-danger alert-dismissible fade show" role="alert">
+                                    {!! session('successDeleteComment') !!}
+                                    {{-- test aja --}}
+                                    <button type="button" class="btn-close" data-bs-dismiss="alert"
+                                        aria-label="Close"></button>
+                                </div>
+                            @endif
+                            @if (session()->has('error'))
+                                <div class="alert alert-danger alert-dismissible fade show" role="alert">
+                                    {!! session('error') !!}
+                                    {{-- test aja --}}
+                                    <button type="button" class="btn-close" data-bs-dismiss="alert"
+                                        aria-label="Close"></button>
+                                </div>
+                            @endif
                             @forelse ($comments as $item)
                                 <!-- Comments -->
                                 <div class="media d-flex align-items-center">
@@ -169,22 +185,45 @@
                                         width="48">
                                     <div class="media-body m-2">
                                         <div class="d-flex justify-content-between align-items-center">
-                                            <a href="/dashboard/users/{{ $item->user->id }}">
+                                            @if (auth()->user()->role === 'admin')
+                                                <a href="/dashboard/users/{{ $item->user->id }}">
+                                                    <h5 class="mt-0 mb-1" style="margin-right: 10px;">
+                                                        {{ $item->user->name }} @if (auth()->user()->username === $item->user->username)
+                                                            <span class="text-muted" style="font-size:12px;">(Komentar
+                                                                anda)</span>
+                                                        @endif
+                                                    </h5>
+                                                </a>
+                                            @else
                                                 <h5 class="mt-0 mb-1" style="margin-right: 10px;">
                                                     {{ $item->user->name }} @if (auth()->user()->username === $item->user->username)
                                                         <span class="text-muted" style="font-size:12px;">(Komentar
                                                             anda)</span>
                                                     @endif
                                                 </h5>
-                                            </a>
-                                            <p class="text-muted mb-0" style="font-size:11px;">
-                                                {{ $item->created_at->diffForHumans() }}</p>
+                                            @endif
+                                            <div class="text-right">
+                                                @if (auth()->user()->id === $item->user->id)
+                                                    <!-- Add delete button here -->
+                                                    <form action="{{ route('comments.destroy', $item->id) }}"
+                                                        method="POST"
+                                                        onsubmit="return confirm('Apa kamu yakin ingin menghapus komen ini?')">
+                                                        @csrf
+                                                        @method('DELETE')
+                                                        <button type="submit"
+                                                            class="btn btn-sm btn-danger">Delete</button>
+                                                    </form>
+                                                @endif
+                                            </div>
                                         </div>
+                                        <p class="text-muted mb-0" style="font-size:11px;">
+                                            {{ $item->created_at->diffForHumans() }}</p>
                                         {!! $item->comment_text !!}
                                     </div>
                                 </div>
                                 <hr>
                             @empty
+                                <!-- Your empty state code here -->
                                 <div class="row">
                                     <div class="col-lg-12">
                                         <h5 class="text-center m-5">Belum ada komentar tentang buku ini</h5>

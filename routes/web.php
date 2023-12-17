@@ -45,6 +45,7 @@ Route::post('/login', [LoginController::class, 'auth']);
 Route::prefix('/dashboard')->middleware('auth')->group(function () {
     // komen
     Route::post('/books/{book}/comments', [CommentController::class, 'store'])->name('comments.store');
+    Route::delete('/comments/{comment}', [CommentController::class, 'destroy'])->name('comments.destroy');
     // add to fav
     Route::post('/favorite', [FavoriteController::class, 'store'])->name('add-favorite');
     Route::get('/favorite', [FavoriteController::class, 'index'])->name('book-favorite');

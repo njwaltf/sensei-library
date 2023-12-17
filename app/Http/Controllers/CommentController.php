@@ -70,8 +70,18 @@ class CommentController extends Controller
     /**
      * Remove the specified resource from storage.
      */
+    /**
+     * Remove the specified resource from storage.
+     */
     public function destroy(Comment $comment)
     {
-        //
+        // Check if the authenticated user is the owner of the comment
+        if (auth()->user()->id === $comment->user_id) {
+            $comment->delete();
+            return redirect('/dashboard/books/' . $comment->book_id . '#comment-section')->with('successDeleteComment', 'Komentar Berhasil Dihapus!');
+        } else {
+            return redirect('/dashboard/books/' . $comment->book_id . '#comment-section')->with('error', 'Anda tidak memiliki izin untuk menghapus komentar ini.');
+        }
     }
+
 }
