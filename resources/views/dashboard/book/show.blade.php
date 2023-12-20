@@ -140,6 +140,7 @@
             @endif
         </div>
         @if (auth()->user()->role)
+            {{-- comment section --}}
             <div class="row">
                 <div class="col-lg-10" id="comment-section">
                     <!-- Comment Card -->

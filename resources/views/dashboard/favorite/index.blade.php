@@ -85,7 +85,8 @@
                                             alt="...">
                                         <div class="card-body d-flex flex-column">
                                             <h5 class="card-title">{{ $item->book->title }}</h5>
-                                            <p class="card-text my-3">{{ Str::limit($item->book->desc, 50, '...') }}</p>
+                                            <p class="card-text my-3 text-dark">
+                                                {{ Str::limit($item->book->desc, 50, '...') }}</p>
 
                                             <div class="d-flex justify-content-start mt-auto py-3">
                                                 <a href="/dashboard/books/{{ $item->book->id }}"
